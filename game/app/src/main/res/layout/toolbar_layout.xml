@@ -7,14 +7,14 @@
     android:layout_alignParentTop="true"
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
-    android:background="?attr/colorPrimary"
+    android:background="#3CAA68"
     android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme">
 
     <ImageView
+        android:id="@+id/bu_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/bu_back"
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
     <RelativeLayout

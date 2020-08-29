@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,13 +23,13 @@ import java.io.OutputStream
  class QuestionsActivity : AppCompatActivity(),RewardedVideoAdListener {
 
     lateinit var mAdView : AdView
-    private lateinit var mInterstitialAd: InterstitialAd
-    var mRewardedVideoAd: RewardedVideoAd? = null
 
     private var mProductList: List<Questions>? = null
     private var mDBHelper: DatabaseHelper? = null
     var count:Int =0
     var isCorrect =false
+    var rand:Int?=null
+    var whoClicked=false
 
 
     @SuppressLint("ResourceAsColor", "WrongConstant", "ResourceType")
@@ -96,22 +97,20 @@ import java.io.OutputStream
         }
 
         iv_points_toolbar.setOnClickListener(){
-            MyDialogP().openDialog(this,tv_points, {isEnable()})
             mediaPlayerClick.start()
+            MyDialogP().openDialog(this,tv_points, {isEnable()})
         }
         tv_points.text=points.toString()
 
 
         setQuestions(count)
         playSounds(check)
+        buAds.visibility=View.GONE
 
         buAds.setOnClickListener(){
-            if (mRewardedVideoAd!!.isLoaded) {
-                mRewardedVideoAd!!.show()
-            } else {
-                Toast.makeText(this, "يرجى الانتظار 5 ثواني \n ثم اظغط على الزر ", Toast.LENGTH_SHORT).show()
-                loadRewardedVideoAd()
-            }
+            mediaPlayerClick.start()
+            mRewardedVideoAd!!.show()
+            whoClicked=true
         }
 
         answer1.setOnClickListener {
@@ -141,6 +140,10 @@ import java.io.OutputStream
                                 mInterstitialAd.loadAd(AdRequest.Builder().build())
                                 setQuestions(count)
                                 isEnable()
+                                isVisible()
+                                if (showButton){
+                                    buAds.visibility=View.VISIBLE
+                                }
                             }
                         }
                         if (mInterstitialAd.isLoaded) {
@@ -148,10 +151,18 @@ import java.io.OutputStream
                         } else {
                             setQuestions(count)
                             isEnable()
+                            isVisible()
+                            if (showButton){
+                                buAds.visibility=View.VISIBLE
+                            }
                         }
                     }else{
                         setQuestions(count)
                         isEnable()
+                        isVisible()
+                        if (showButton){
+                            buAds.visibility=View.VISIBLE
+                        }
                     }
                 }else{
                     Toast.makeText(this,"يجب عليك معرفة الجواب الصحيح",Toast.LENGTH_LONG).show()
@@ -183,6 +194,12 @@ import java.io.OutputStream
         answer3.isClickable=true
         answer4.isClickable=true
     }
+    private fun isVisible(){
+        answer1.isEnabled=true
+        answer2.isEnabled=true
+        answer3.isEnabled=true
+        answer4.isEnabled=true
+    }
     private fun playSounds(check:Boolean){
         if (check){
             mediaPlayerC.setVolume(0F, 0F)
@@ -200,6 +217,7 @@ import java.io.OutputStream
             isCorrect = true
             mediaPlayerC.start()
             notEnable()
+            buAds.visibility=View.GONE
         }else{
             mediaPlayerW.start()
             points--
@@ -209,19 +227,105 @@ import java.io.OutputStream
 
         if (points==0){
             notEnable()
+            buAds.visibility=View.GONE
             MyDialogP().openDialog(this,tv_points, { isEnable() })
         }
     }
 
+    fun deleteAnswer(){
+        rand=(1 until 4).random()
+        if(answer1.text==mProductList!![count].correct)
+        {
+            when(rand){
+                1 -> {
+                    answer2.isEnabled = false
+                    answer3.isEnabled = false
+                }
+                2 -> {
+                    answer3.isEnabled = false
+                    answer4.isEnabled = false
+                }
+                3 -> {
+                    answer4.isEnabled = false
+                    answer2.isEnabled = false
+                }
+            }
+        }
+
+        if(answer2.text==mProductList!![count].correct)
+        {
+            when(rand){
+                1 -> {
+                    answer1.isEnabled = false
+                    answer3.isEnabled = false
+                }
+                2 -> {
+                    answer3.isEnabled = false
+                    answer4.isEnabled = false
+                }
+                3 -> {
+                    answer4.isEnabled = false
+                    answer1.isEnabled = false
+                }
+            }
+        }
+
+        if(answer3.text==mProductList!![count].correct)
+        {
+            when(rand){
+                1 -> {
+                    answer2.isEnabled = false
+                    answer1.isEnabled = false
+                }
+                2 -> {
+                    answer1.isEnabled = false
+                    answer4.isEnabled = false
+                }
+                3 -> {
+                    answer4.isEnabled = false
+                    answer2.isEnabled = false
+                }
+            }
+        }
+
+        if(answer4.text==mProductList!![count].correct)
+        {
+            when(rand){
+                1 -> {
+                    answer2.isEnabled = false
+                    answer3.isEnabled = false
+                }
+                2 -> {
+                    answer3.isEnabled = false
+                    answer1.isEnabled = false
+                }
+                3 -> {
+                    answer1.isEnabled = false
+                    answer2.isEnabled = false
+                }
+            }
+        }
+
+    }
 
 
 ///////// Companion Object ///////////
 
     companion object {
-            var points=10
+            var points=15
             lateinit var mediaPlayerC:MediaPlayer
             lateinit var mediaPlayerW:MediaPlayer
             lateinit var mediaPlayerClick:MediaPlayer
+            var showButton=false
+            lateinit var mInterstitialAd: InterstitialAd
+            var mRewardedVideoAd: RewardedVideoAd? = null
+
+        fun loadRewardedVideoAd() {
+            if (!mRewardedVideoAd!!.isLoaded) {
+                mRewardedVideoAd!!.loadAd("ca-app-pub-3940256099942544/5224354917",
+                        AdRequest.Builder().build())
+            }
+        }
     }
 
 
@@ -243,15 +347,18 @@ import java.io.OutputStream
 
         }
     }
-    private fun loadRewardedVideoAd() {
-        if (!mRewardedVideoAd!!.isLoaded) {
-            mRewardedVideoAd!!.loadAd("ca-app-pub-3940256099942544/5224354917",
-                AdRequest.Builder().build())
-        }
-    }
+
+
 
     override fun onRewardedVideoAdClosed() {
         loadRewardedVideoAd()
+        if (whoClicked){
+            whoClicked=false
+            showButton=false
+            buAds.visibility=View.GONE
+        }
+
+
     }
 
     override fun onRewardedVideoAdLeftApplication() {
@@ -259,7 +366,7 @@ import java.io.OutputStream
     }
 
     override fun onRewardedVideoAdLoaded() {
-        Toast.makeText(this, "لقد تم تهيئة الإعلان بنجاح", Toast.LENGTH_SHORT).show()
+        showButton=true
     }
 
     override fun onRewardedVideoAdOpened() {
@@ -271,8 +378,22 @@ import java.io.OutputStream
     }
 
     override fun onRewarded(p0: RewardItem?) {
-        points++
-        tv_points.text= points.toString()
+
+        if (whoClicked){
+            deleteAnswer()
+        }else{
+            if (points == 0) {
+                points+=2
+                tv_points.text = points.toString()
+                isEnable()
+            } else {
+                points+=2
+                tv_points.text = points.toString()
+            }
+
+        }
+
+
     }
 
     override fun onRewardedVideoStarted() {

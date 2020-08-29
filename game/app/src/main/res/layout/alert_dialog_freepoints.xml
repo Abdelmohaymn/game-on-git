@@ -61,44 +61,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="3dp"
             android:layout_toLeftOf="@+id/imageV2"
-            android:text="شاهد فديو واحصل علي محاولة" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/buy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="center_vertical"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="horizontal"
-        android:padding="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
-
-        <ImageView
-            android:id="@+id/imageV3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            app:srcCompat="@android:drawable/ic_input_add" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="3dp"
-            android:layout_toLeftOf="@+id/imageV3"
-            android:text="شراء محاولات" />
-
+            android:text="شاهد فديو واحصل علي 2 محاولة" />
 
     </RelativeLayout>
 

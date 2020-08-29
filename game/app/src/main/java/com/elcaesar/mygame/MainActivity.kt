@@ -8,6 +8,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
+import com.elcaesar.mygame.QuestionsActivity.Companion.mInterstitialAd
+import com.elcaesar.mygame.QuestionsActivity.Companion.mRewardedVideoAd
+import com.elcaesar.mygame.QuestionsActivity.Companion.showButton
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -24,17 +27,11 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 @Suppress("DEPRECATION")
  class MainActivity : AppCompatActivity() {
 
-    private lateinit var mInterstitialAd: InterstitialAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        MobileAds.initialize(this) {}
-
-        mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         var mediaPlayerClick:MediaPlayer = MediaPlayer.create(this,R.raw.click)
         var check=false
@@ -86,6 +83,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
         }
 
         view.share.setOnClickListener(){
+            mediaPlayerClick.start()
             val intent= Intent()
             intent.action=Intent.ACTION_SEND
             intent.putExtra(Intent.EXTRA_TEXT,"هيا العب معي هذه اللعبة"+"\n"
@@ -99,9 +97,8 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
         toolbar.visibility=View.GONE
         //////********/////////
         view.freePoints.setOnClickListener(){
-
-            MyDialogP().openDialog(this,tv_points, {empty()})
             mediaPlayerClick.start()
+            MyDialogP().openDialog(this,tv_points, {empty()})
         }
 
         view.buRate.setOnClickListener(){
