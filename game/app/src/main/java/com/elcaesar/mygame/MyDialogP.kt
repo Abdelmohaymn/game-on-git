@@ -72,24 +72,4 @@ open class MyDialogP : AppCompatActivity() {
 
     }
 
-
-
-    /* private fun saveSating() {
-     val saveChange =
-         getSharedPreferences("saveChange", Context.MODE_PRIVATE)
-     val editor = saveChange.edit()
-     editor.putInt("Point", points)
-     editor.putInt("share", share)
-     editor.apply()
- }
-
- fun loadSating() {
-     val saveChange =
-         getSharedPreferences("saveChange", Context.MODE_PRIVATE)
-     val point = saveChange.getInt("Point", points)
-     points = point
-     share = saveChange.getInt("share", share)
-
- }*/
-
 }
