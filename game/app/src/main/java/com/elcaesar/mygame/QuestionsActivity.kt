@@ -1,19 +1,32 @@
 package com.elcaesar.mygame
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Color.parseColor
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.elcaesar.mygame.MyDialogP.Companion.getBool
+import com.elcaesar.mygame.MyDialogP.Companion.getInt
+import com.elcaesar.mygame.MyDialogP.Companion.playAds
+import com.elcaesar.mygame.MyDialogP.Companion.remove
+import com.elcaesar.mygame.MyDialogP.Companion.saveBool
+import com.elcaesar.mygame.MyDialogP.Companion.saveInt
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_questions.*
+import kotlinx.android.synthetic.main.alert_dialog_freepoints.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -26,32 +39,39 @@ import java.io.OutputStream
 
     private var mProductList: List<Questions>? = null
     private var mDBHelper: DatabaseHelper? = null
-    var count:Int =0
-    var isCorrect =false
     var rand:Int?=null
     var whoClicked=false
+    var cnt=0
 
 
-    @SuppressLint("ResourceAsColor", "WrongConstant", "ResourceType")
+    @SuppressLint("ResourceAsColor", "WrongConstant", "ResourceType", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questions)
 
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
-        mRewardedVideoAd!!.rewardedVideoAdListener = this
-        loadRewardedVideoAd()
-        // إعلان فيديو بمكافئ
+        Log.d("debugMyCode","بدأ تحميل الاعلان")
 
-        MobileAds.initialize(this) {}
+        /*mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
+        mRewardedVideoAd!!.rewardedVideoAdListener = this
+        loadRewardedVideoAd()*/
+        // إعلان فيديو بمكافئ
+        Log.d("debugMyCode","انتهي تحميل الاعلان وبدأ تحميل الاعلان الثاني")
+
+        /*MobileAds.initialize(this) {}
         mAdView = findViewById(R.id.adView)
         val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+        mAdView.loadAd(adRequest)*/
 
-        mInterstitialAd = InterstitialAd(this)
+        Log.d("debugMyCode","انتهي تحميل الاعلان الثاني وبدأ تحميل الاعلان الثالث")
+
+        /*mInterstitialAd = InterstitialAd(this)
         mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
+        mInterstitialAd.loadAd(AdRequest.Builder().build())*/
+
+        Log.d("debugMyCode","انتهي تحميل الاعلان الثالث وبدأ تحميل الداتا بيز")
 
         mDBHelper = DatabaseHelper(this)
+        Log.d("debugMyCode","انتهي تحميل الداتا بيز وجاري نسخها")
 
         //Check exists database
         val database = applicationContext.getDatabasePath(DatabaseHelper.DBNAME)
@@ -60,26 +80,39 @@ import java.io.OutputStream
             //Copy db
             copyDatabase(this)
         }
+        Log.d("debugMyCode","انتهي نسخ الداتا بيز وجاري جلب البيانات")
 
         //Get product list in db when db exists
         mProductList = mDBHelper!!.listProduct
         ///////////////////
+        Log.d("debugMyCode","انتهي جلب البيانات وجاري وضع اكشن بار")
 
-
-        var check: Boolean = intent.getBooleanExtra("check",false)
 
         mediaPlayerC = MediaPlayer.create(this,R.raw.correctt)
         mediaPlayerW = MediaPlayer.create(this,R.raw.incorrectt)
         mediaPlayerClick = MediaPlayer.create(this,R.raw.click)
 
 
-        toolbar.title = ""
-        setSupportActionBar(toolbar)
+        //toolbar.title = ""
+        //setSupportActionBar(toolbar)
+
+        Log.d("debugMyCode","انتهي وضع الاكشن بار ")
+
+        tv_points.text= points.toString()
+        count= getInt(this,"count",0)
+        //isCorrect= getBool(this,"is correct",false)
+        setQuestions(count)
+        buAds.visibility=View.GONE
+        answer1.setBackgroundResource(getInt(this,"back1",R.drawable.button_answer))
+        answer2.setBackgroundResource(getInt(this,"back2",R.drawable.button_answer))
+        answer3.setBackgroundResource(getInt(this,"back3",R.drawable.button_answer))
+        answer4.setBackgroundResource(getInt(this,"back4",R.drawable.button_answer))
+
 
         bu_back.setOnClickListener(){
-            mediaPlayerClick.start()
+            mediaPlayerClick!!.start()
             val intent=Intent(this,MainActivity::class.java)
-            if (MyDialogP.playAds){
+            //if (playAds){
                 mInterstitialAd.adListener = object: AdListener() {
                     override fun onAdClosed() {
                         mInterstitialAd.loadAd(AdRequest.Builder().build())
@@ -91,86 +124,59 @@ import java.io.OutputStream
                 } else {
                     startActivity(intent)
                 }
-            }else{
-                startActivity(intent)
-            }
+            //}else{
+            //    startActivity(intent)
+            //}
         }
 
         iv_points_toolbar.setOnClickListener(){
-            mediaPlayerClick.start()
+            mediaPlayerClick!!.start()
             MyDialogP().openDialog(this,tv_points, {isEnable()})
         }
-        tv_points.text=points.toString()
-
-
-        setQuestions(count)
-        playSounds(check)
-        buAds.visibility=View.GONE
 
         buAds.setOnClickListener(){
-            mediaPlayerClick.start()
+            mediaPlayerClick!!.start()
             mRewardedVideoAd!!.show()
             whoClicked=true
         }
 
         answer1.setOnClickListener {
-            Answers(answer1)
+
+            if(getInt(this,"back1",R.drawable.button_answer)==R.drawable.button_answer2){
+                answer1.isClickable=false
+            }else{
+                Answers(answer1)
+            }
+
         }
         answer2.setOnClickListener {
-            Answers(answer2)
+
+            if(getInt(this,"back2",R.drawable.button_answer)==R.drawable.button_answer2){
+                answer2.isClickable=false
+            }else{
+                Answers(answer2)
+            }
+
         }
         answer3.setOnClickListener {
-            Answers(answer3)
+
+            if(getInt(this,"back3",R.drawable.button_answer)==R.drawable.button_answer2){
+                answer3.isClickable=false
+            }else{
+                Answers(answer3)
+            }
+
         }
         answer4.setOnClickListener {
-            Answers(answer4)
-        }
 
-
-        bu_Next.setOnClickListener {
-            mediaPlayerClick.seekTo(0)
-            mediaPlayerClick.start()
-            if (points>0){
-                if(isCorrect){
-                    count++
-                    isCorrect=false
-                    if (MyDialogP.playAds){
-                        mInterstitialAd.adListener = object: AdListener() {
-                            override fun onAdClosed() {
-                                mInterstitialAd.loadAd(AdRequest.Builder().build())
-                                setQuestions(count)
-                                isEnable()
-                                isVisible()
-                                if (showButton){
-                                    buAds.visibility=View.VISIBLE
-                                }
-                            }
-                        }
-                        if (mInterstitialAd.isLoaded) {
-                            mInterstitialAd.show()
-                        } else {
-                            setQuestions(count)
-                            isEnable()
-                            isVisible()
-                            if (showButton){
-                                buAds.visibility=View.VISIBLE
-                            }
-                        }
-                    }else{
-                        setQuestions(count)
-                        isEnable()
-                        isVisible()
-                        if (showButton){
-                            buAds.visibility=View.VISIBLE
-                        }
-                    }
-                }else{
-                    Toast.makeText(this,"يجب عليك معرفة الجواب الصحيح",Toast.LENGTH_LONG).show()
-                }
+            if(getInt(this,"back4",R.drawable.button_answer)==R.drawable.button_answer2){
+                answer4.isClickable=false
             }else{
-                Toast.makeText(this,"يجب عليك إضافة محاولة واحدة علي الأقل",Toast.LENGTH_LONG).show()
+                Answers(answer4)
             }
+
         }
+
 
     }
 
@@ -200,36 +206,82 @@ import java.io.OutputStream
         answer3.isEnabled=true
         answer4.isEnabled=true
     }
-    private fun playSounds(check:Boolean){
-        if (check){
-            mediaPlayerC.setVolume(0F, 0F)
-            mediaPlayerW.setVolume(0F, 0F)
-            mediaPlayerClick.setVolume(0F, 0F)
-        }else{
-            mediaPlayerC.setVolume(1F, 1F)
-            mediaPlayerW.setVolume(1F, 1F)
-            mediaPlayerClick.setVolume(1F, 1F)
-        }
+
+    private fun ansBackground(){
+        answer1.setBackgroundResource(R.drawable.button_answer)
+        answer2.setBackgroundResource(R.drawable.button_answer)
+        answer3.setBackgroundResource(R.drawable.button_answer)
+        answer4.setBackgroundResource(R.drawable.button_answer)
     }
 
+    private fun removeValues(){
+        remove(this,"back1")
+        remove(this,"back2")
+        remove(this,"back3")
+        remove(this,"back4")
+        //remove(this,"is correct")
+    }
+
+    @SuppressLint("ResourceAsColor")
     private fun Answers(button: Button){
-        if (button.text==mProductList!![count].correct) {
-            isCorrect = true
-            mediaPlayerC.start()
-            notEnable()
-            buAds.visibility=View.GONE
+        if(points>0){
+            if (button.text==mProductList!![count].correct) {
+                mediaPlayerC!!.start()
+                count++
+                cnt=0
+                whoClicked=false
+                button.setBackgroundResource(R.drawable.button_answer3)
+                when(button){
+                    answer1 -> saveInt(this,"back1",R.drawable.button_answer3)
+                    answer2 -> saveInt(this,"back2",R.drawable.button_answer3)
+                    answer3 -> saveInt(this,"back3",R.drawable.button_answer3)
+                    answer4 -> saveInt(this,"back4",R.drawable.button_answer3)
+                }
+
+                playAnim(Question,0)
+                /*if (playAds){
+                    mInterstitialAd.adListener = object: AdListener() {
+                        override fun onAdClosed() {
+                            mInterstitialAd.loadAd(AdRequest.Builder().build())
+                            playAnim(Question,0)
+                        }
+                    }
+                    if (mInterstitialAd.isLoaded) {
+                        mInterstitialAd.show()
+                    } else {
+                        playAnim(Question,0)
+                    }
+                }else{
+                    playAnim(Question,0)
+                }*/
+
+
+            }else{
+                button.isClickable=false
+                mediaPlayerW!!.seekTo(0)
+                mediaPlayerW!!.start()
+                points--
+                tv_points.text = points.toString()
+                button.setBackgroundResource(R.drawable.button_answer2)
+                when(button){
+                    answer1 -> saveInt(this,"back1",R.drawable.button_answer2)
+                    answer2 -> saveInt(this,"back2",R.drawable.button_answer2)
+                    answer3 -> saveInt(this,"back3",R.drawable.button_answer2)
+                    answer4 -> saveInt(this,"back4",R.drawable.button_answer2)
+                }
+            }
+
+            if (points==0){
+                buAds.isClickable=false
+                MyDialogP().openDialog(this,tv_points, { isEnable() })
+            }
+
         }else{
-            mediaPlayerW.start()
-            points--
-            tv_points.text = Integer.toString(points)
-            button.isClickable=false
+            Toast.makeText(this,"يجب عليك إضافة محاولة واحدة علي الأقل",Toast.LENGTH_LONG).show()
         }
 
-        if (points==0){
-            notEnable()
-            buAds.visibility=View.GONE
-            MyDialogP().openDialog(this,tv_points, { isEnable() })
-        }
+        saveInt(this,"points",points)
+        saveInt(this,"count",count)
     }
 
     fun deleteAnswer(){
@@ -308,15 +360,43 @@ import java.io.OutputStream
 
     }
 
+    private fun playAnim(view: View, value: Int) {
+        view.animate().alpha(value.toFloat()).scaleX(value.toFloat()).scaleY(value.toFloat()).setDuration(500).setStartDelay(100)
+                .setInterpolator(DecelerateInterpolator()).setListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animation: Animator) {
+                        if (value==0 && cnt<4){
+                            playAnim(answers_container.getChildAt(cnt),0 )
+                            cnt++
+                        }
+                    }
+
+                    override fun onAnimationEnd(animation: Animator) {
+                        if (value == 0) {
+                            playAnim(view, 1)
+                        }
+                        setQuestions(count)
+                        isEnable()
+                        isVisible()
+                        buAds.isClickable=true
+                        ansBackground()
+                        removeValues()
+
+                    }
+
+                    override fun onAnimationCancel(animation: Animator) {}
+                    override fun onAnimationRepeat(animation: Animator) {}
+                })
+    }
+
 
 ///////// Companion Object ///////////
 
     companion object {
             var points=15
-            lateinit var mediaPlayerC:MediaPlayer
-            lateinit var mediaPlayerW:MediaPlayer
-            lateinit var mediaPlayerClick:MediaPlayer
-            var showButton=false
+            var count:Int=0
+            var mediaPlayerC:MediaPlayer?=null
+            var mediaPlayerW:MediaPlayer?=null
+            var mediaPlayerClick:MediaPlayer?=null
             lateinit var mInterstitialAd: InterstitialAd
             var mRewardedVideoAd: RewardedVideoAd? = null
 
@@ -353,11 +433,8 @@ import java.io.OutputStream
     override fun onRewardedVideoAdClosed() {
         loadRewardedVideoAd()
         if (whoClicked){
-            whoClicked=false
-            showButton=false
-            buAds.visibility=View.GONE
+            buAds.visibility= View.GONE
         }
-
 
     }
 
@@ -366,7 +443,11 @@ import java.io.OutputStream
     }
 
     override fun onRewardedVideoAdLoaded() {
-        showButton=true
+            buAds.visibility= View.VISIBLE
+            if (whoClicked){
+                whoClicked=false
+                buAds.isClickable=false
+            }
     }
 
     override fun onRewardedVideoAdOpened() {
@@ -392,7 +473,7 @@ import java.io.OutputStream
             }
 
         }
-
+        saveInt(this,"points",points)
 
     }
 

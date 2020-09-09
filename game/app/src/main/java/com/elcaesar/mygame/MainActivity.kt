@@ -1,23 +1,20 @@
 package com.elcaesar.mygame
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
-import com.elcaesar.mygame.QuestionsActivity.Companion.mInterstitialAd
-import com.elcaesar.mygame.QuestionsActivity.Companion.mRewardedVideoAd
-import com.elcaesar.mygame.QuestionsActivity.Companion.showButton
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.reward.RewardItem
-import com.google.android.gms.ads.reward.RewardedVideoAd
-import com.google.android.gms.ads.reward.RewardedVideoAdListener
+import com.elcaesar.mygame.MyDialogP.Companion.getBool
+import com.elcaesar.mygame.MyDialogP.Companion.getInt
+import com.elcaesar.mygame.MyDialogP.Companion.saveBool
+import com.elcaesar.mygame.QuestionsActivity.Companion.points
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_sheet.view.*
@@ -27,42 +24,42 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 @Suppress("DEPRECATION")
  class MainActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         var mediaPlayerClick:MediaPlayer = MediaPlayer.create(this,R.raw.click)
-        var check=false
+        val amanager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         val bottomSheetDialog = BottomSheetDialog(this,R.style.BottomSheetDialogTheme)
         val view=layoutInflater.inflate(R.layout.bottom_sheet,null)
 
         bottomSheetDialog.setContentView(view)
         //bottomSheetDialog.setCancelable(false)
-
+        toolbar.visibility=View.GONE
+        points= getInt(this, "points", 15)
+        //playAds=getBool(this,"is checked ads",false)
 
 
         bu_play.setOnClickListener(){
             mediaPlayerClick.start()
             val intent=Intent(this,QuestionsActivity::class.java)
-            intent.putExtra("check",check)
-            if (MyDialogP.playAds){
-                mInterstitialAd.adListener = object: AdListener() {
+            startActivity(intent)
+            /*if (playAds){
+                mInterstitialAd!!.adListener = object: AdListener() {
                     override fun onAdClosed() {
-                        mInterstitialAd.loadAd(AdRequest.Builder().build())
+                        mInterstitialAd!!.loadAd(AdRequest.Builder().build())
                         startActivity(intent)
                     }
                 }
-                if (mInterstitialAd.isLoaded) {
-                    mInterstitialAd.show()
+                if (mInterstitialAd!!.isLoaded) {
+                    mInterstitialAd!!.show()
                 } else {
                     startActivity(intent)
                 }
             }else{
                 startActivity(intent)
-            }
+            }*/
         }
 
         image_sheet.setOnClickListener(){
@@ -70,14 +67,15 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
             bottomSheetDialog.show()
         }
 
+        view.switch_disSound.isChecked= getBool(this,"sounds",false)
         view.switch_disSound.setOnCheckedChangeListener(){ _ : CompoundButton?, isChecked: Boolean ->
-
             if (isChecked){
-                check=true
-                mediaPlayerClick.setVolume(0F, 0F)
+                amanager.setStreamMute(AudioManager.STREAM_MUSIC, true)
+                saveBool(this,"sounds",true)
             }else{
-                check=false
-                mediaPlayerClick.setVolume(1F, 1F)
+
+                amanager.setStreamMute(AudioManager.STREAM_MUSIC, false)
+                saveBool(this,"sounds",false)
             }
             mediaPlayerClick.start()
         }
@@ -92,9 +90,8 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
             startActivity(Intent.createChooser(intent,"اختر تطبيق"))
         }
         //////********////////
-        toolbar.title = ""
-        setSupportActionBar(toolbar)
-        toolbar.visibility=View.GONE
+        //toolbar.title = ""
+        //setSupportActionBar(toolbar)
         //////********/////////
         view.freePoints.setOnClickListener(){
             mediaPlayerClick.start()
@@ -118,6 +115,11 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 
     fun empty(){
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
     }
 
 }

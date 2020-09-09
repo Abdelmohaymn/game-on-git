@@ -1,12 +1,10 @@
 package com.elcaesar.mygame
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,12 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.elcaesar.mygame.QuestionsActivity.Companion.loadRewardedVideoAd
 import com.elcaesar.mygame.QuestionsActivity.Companion.mRewardedVideoAd
 import com.elcaesar.mygame.QuestionsActivity.Companion.mediaPlayerClick
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.reward.RewardItem
-import com.google.android.gms.ads.reward.RewardedVideoAd
-import com.google.android.gms.ads.reward.RewardedVideoAdListener
-import kotlinx.android.synthetic.main.activity_questions.*
+import com.elcaesar.mygame.QuestionsActivity.Companion.points
+import kotlinx.android.synthetic.main.alert_dialog_freepoints.*
 import kotlinx.android.synthetic.main.alert_dialog_freepoints.view.*
 
 
@@ -28,6 +22,34 @@ open class MyDialogP : AppCompatActivity() {
 
     companion object {
         var playAds: Boolean = false
+
+        ////////////////// save Data
+
+        fun saveInt(context: Context, key: String, value: Int) {
+            val pref = context.getSharedPreferences("Data", MODE_PRIVATE)
+            val editor = pref.edit()
+            editor.putInt(key, value)
+            editor.apply()
+        }
+        fun getInt(context: Context, key: String, value:Int): Int {
+            val pr = context.getSharedPreferences("Data", MODE_PRIVATE)
+            return pr.getInt(key, value)
+        }
+
+        fun saveBool(context: Context, key: String, value: Boolean) {
+            val pref = context.getSharedPreferences("Data", MODE_PRIVATE)
+            val edit = pref.edit()
+            edit.putBoolean(key, value)
+            edit.apply()
+        }
+        fun getBool(context: Context, key: String,value: Boolean): Boolean {
+            val pref = context.getSharedPreferences("Data", MODE_PRIVATE)
+            return pref.getBoolean(key, value)
+        }
+        fun remove(context: Context,key:String){
+            val preferences: SharedPreferences = context.getSharedPreferences("Data", MODE_PRIVATE)
+            preferences.edit().remove(key).apply()
+        }
     }
 
     fun openDialog(context: Context ,textView: TextView , enable: () -> Unit) {
@@ -40,56 +62,48 @@ open class MyDialogP : AppCompatActivity() {
         val mAlertDialog = mBuilder.show()
         mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         mDialogView.ivExit.setOnClickListener {
-            mediaPlayerClick.start()
+            mediaPlayerClick!!.start()
             mAlertDialog.dismiss()
         }
 
+        //mDialogView.switch_playAds.isChecked= getBool(context,"is checked ads",false)
+        //mDialogView.switch_playAds.isClickable = getBool(context,"bu play ads",true)
+        //remove(context,"is checked ads")
+        //remove(context,"bu play ads")
+        //remove(context,"play Ads")
         mDialogView.switch_playAds.setOnCheckedChangeListener { _, isChecked: Boolean ->
-            mediaPlayerClick.start()
+            mediaPlayerClick!!.start()
             if (isChecked) {
                 playAds = true
                 mDialogView.switch_playAds.isClickable = false
+                //saveBool(context,"is checked ads",true)
+                //saveBool(context,"bu play ads",false)
+                //saveBool(context,"play Ads",true)
+               /* saveInt(context,"points", points)*/
             }
-            if (QuestionsActivity.points == 0) {
-                QuestionsActivity.points += 25
-                textView.text = QuestionsActivity.points.toString()
+            if (points == 0) {
+                points += 25
+                textView.text = points.toString()
                 enable()
             } else {
-                QuestionsActivity.points += 25
-                textView.text = QuestionsActivity.points.toString()
+                points += 25
+                textView.text = points.toString()
             }
+
         }
 
         mDialogView.watch_vid.setOnClickListener() {
-            mediaPlayerClick.start()
+            mediaPlayerClick!!.start()
             if (mRewardedVideoAd!!.isLoaded){
                 mRewardedVideoAd!!.show()
             }else{
                loadRewardedVideoAd()
+                Toast.makeText(context,"لا يتوفر فديو الان حاول لاحقا !!",Toast.LENGTH_SHORT).show()
             }
 
         }
 
     }
 
-
-
-    /* private fun saveSating() {
-     val saveChange =
-         getSharedPreferences("saveChange", Context.MODE_PRIVATE)
-     val editor = saveChange.edit()
-     editor.putInt("Point", points)
-     editor.putInt("share", share)
-     editor.apply()
- }
-
- fun loadSating() {
-     val saveChange =
-         getSharedPreferences("saveChange", Context.MODE_PRIVATE)
-     val point = saveChange.getInt("Point", points)
-     points = point
-     share = saveChange.getInt("share", share)
-
- }*/
 
 }
