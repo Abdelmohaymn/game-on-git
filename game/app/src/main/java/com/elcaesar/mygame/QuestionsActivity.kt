@@ -14,6 +14,10 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.elcaesar.mygame.AdsClass.Companion.bannerAd
+import com.elcaesar.mygame.AdsClass.Companion.mAdView
+import com.elcaesar.mygame.AdsClass.Companion.mInterstitialAd
+import com.elcaesar.mygame.AdsClass.Companion.mobileAds
 import com.elcaesar.mygame.MyDialogP.Companion.getBool
 import com.elcaesar.mygame.MyDialogP.Companion.getInt
 import com.elcaesar.mygame.MyDialogP.Companion.playAds
@@ -35,8 +39,6 @@ import java.io.OutputStream
 
  class QuestionsActivity : AppCompatActivity(),RewardedVideoAdListener {
 
-    lateinit var mAdView : AdView
-
     private var mProductList: List<Questions>? = null
     private var mDBHelper: DatabaseHelper? = null
     var rand:Int?=null
@@ -51,22 +53,18 @@ import java.io.OutputStream
 
         Log.d("debugMyCode","بدأ تحميل الاعلان")
 
-        /*mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
         mRewardedVideoAd!!.rewardedVideoAdListener = this
-        loadRewardedVideoAd()*/
+        loadRewardedVideoAd()
         // إعلان فيديو بمكافئ
         Log.d("debugMyCode","انتهي تحميل الاعلان وبدأ تحميل الاعلان الثاني")
 
-        /*MobileAds.initialize(this) {}
         mAdView = findViewById(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)*/
+        bannerAd()
 
         Log.d("debugMyCode","انتهي تحميل الاعلان الثاني وبدأ تحميل الاعلان الثالث")
 
-        /*mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
-        mInterstitialAd.loadAd(AdRequest.Builder().build())*/
+        mobileAds(this)
 
         Log.d("debugMyCode","انتهي تحميل الاعلان الثالث وبدأ تحميل الداتا بيز")
 
@@ -100,9 +98,12 @@ import java.io.OutputStream
 
         tv_points.text= points.toString()
         count= getInt(this,"count",0)
-        //isCorrect= getBool(this,"is correct",false)
         setQuestions(count)
-        buAds.visibility=View.GONE
+        if (getBool(this,"bu Ads",false)){
+            buAds.visibility=View.VISIBLE
+        }else{
+            buAds.visibility=View.GONE
+        }
         answer1.setBackgroundResource(getInt(this,"back1",R.drawable.button_answer))
         answer2.setBackgroundResource(getInt(this,"back2",R.drawable.button_answer))
         answer3.setBackgroundResource(getInt(this,"back3",R.drawable.button_answer))
@@ -112,21 +113,21 @@ import java.io.OutputStream
         bu_back.setOnClickListener(){
             mediaPlayerClick!!.start()
             val intent=Intent(this,MainActivity::class.java)
-            //if (playAds){
-                mInterstitialAd.adListener = object: AdListener() {
+            if (playAds){
+                mInterstitialAd!!.adListener = object: AdListener() {
                     override fun onAdClosed() {
-                        mInterstitialAd.loadAd(AdRequest.Builder().build())
+                        mInterstitialAd!!.loadAd(AdRequest.Builder().build())
                         startActivity(intent)
                     }
                 }
-                if (mInterstitialAd.isLoaded) {
-                    mInterstitialAd.show()
+                if (mInterstitialAd!!.isLoaded) {
+                    mInterstitialAd!!.show()
                 } else {
                     startActivity(intent)
                 }
-            //}else{
-            //    startActivity(intent)
-            //}
+            }else{
+                startActivity(intent)
+            }
         }
 
         iv_points_toolbar.setOnClickListener(){
@@ -238,22 +239,22 @@ import java.io.OutputStream
                     answer4 -> saveInt(this,"back4",R.drawable.button_answer3)
                 }
 
-                playAnim(Question,0)
-                /*if (playAds){
-                    mInterstitialAd.adListener = object: AdListener() {
+                //playAnim(Question,0)
+                if (playAds){
+                    mInterstitialAd!!.adListener = object: AdListener() {
                         override fun onAdClosed() {
-                            mInterstitialAd.loadAd(AdRequest.Builder().build())
+                            mInterstitialAd!!.loadAd(AdRequest.Builder().build())
                             playAnim(Question,0)
                         }
                     }
-                    if (mInterstitialAd.isLoaded) {
-                        mInterstitialAd.show()
+                    if (mInterstitialAd!!.isLoaded) {
+                        mInterstitialAd!!.show()
                     } else {
                         playAnim(Question,0)
                     }
                 }else{
                     playAnim(Question,0)
-                }*/
+                }
 
 
             }else{
@@ -397,7 +398,6 @@ import java.io.OutputStream
             var mediaPlayerC:MediaPlayer?=null
             var mediaPlayerW:MediaPlayer?=null
             var mediaPlayerClick:MediaPlayer?=null
-            lateinit var mInterstitialAd: InterstitialAd
             var mRewardedVideoAd: RewardedVideoAd? = null
 
         fun loadRewardedVideoAd() {
@@ -432,9 +432,9 @@ import java.io.OutputStream
 
     override fun onRewardedVideoAdClosed() {
         loadRewardedVideoAd()
-        if (whoClicked){
+        /*if (whoClicked){
             buAds.visibility= View.GONE
-        }
+        }*/
 
     }
 
@@ -444,6 +444,7 @@ import java.io.OutputStream
 
     override fun onRewardedVideoAdLoaded() {
             buAds.visibility= View.VISIBLE
+            saveBool(this,"bu Ads",true)
             if (whoClicked){
                 whoClicked=false
                 buAds.isClickable=false
@@ -462,6 +463,8 @@ import java.io.OutputStream
 
         if (whoClicked){
             deleteAnswer()
+            buAds.visibility= View.GONE
+            remove(this,"bu Ads")
         }else{
             if (points == 0) {
                 points+=2
@@ -484,4 +487,11 @@ import java.io.OutputStream
     override fun onRewardedVideoAdFailedToLoad(p0: Int) {
 
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent=Intent(this,MainActivity::class.java)
+        startActivity(intent)
+    }
+
 }

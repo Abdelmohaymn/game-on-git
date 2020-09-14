@@ -1,6 +1,7 @@
 package com.elcaesar.mygame
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.alert_dialog_freepoints.view.*
 
 
 @Suppress("DEPRECATION")
-open class MyDialogP : AppCompatActivity() {
+open class MyDialogP  {
 
     companion object {
         var playAds: Boolean = false
@@ -66,20 +67,18 @@ open class MyDialogP : AppCompatActivity() {
             mAlertDialog.dismiss()
         }
 
-        //mDialogView.switch_playAds.isChecked= getBool(context,"is checked ads",false)
-        //mDialogView.switch_playAds.isClickable = getBool(context,"bu play ads",true)
-        //remove(context,"is checked ads")
-        //remove(context,"bu play ads")
-        //remove(context,"play Ads")
+        mDialogView.switch_playAds.isChecked= getBool(context,"is checked ads",false)
+        mDialogView.switch_playAds.isClickable = getBool(context,"click play ads",true)
+
         mDialogView.switch_playAds.setOnCheckedChangeListener { _, isChecked: Boolean ->
             mediaPlayerClick!!.start()
             if (isChecked) {
                 playAds = true
                 mDialogView.switch_playAds.isClickable = false
-                //saveBool(context,"is checked ads",true)
-                //saveBool(context,"bu play ads",false)
-                //saveBool(context,"play Ads",true)
-               /* saveInt(context,"points", points)*/
+                saveBool(context,"is checked ads",true)
+                saveBool(context,"click play ads",false)
+                saveBool(context,"play Ads", playAds)
+                //saveInt(context,"points", points)
             }
             if (points == 0) {
                 points += 25
@@ -90,6 +89,7 @@ open class MyDialogP : AppCompatActivity() {
                 textView.text = points.toString()
             }
 
+            saveInt(context,"points", points)
         }
 
         mDialogView.watch_vid.setOnClickListener() {
