@@ -55,7 +55,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 
         bu_play.setOnClickListener(){
             mediaPlayerClick.start()
-            val intent=Intent(this,QuestionsActivity::class.java)
+            val intent=Intent(this,GamesActivity::class.java)
             if (playAds){
                 mInterstitialAd!!.adListener = object: AdListener() {
                     override fun onAdClosed() {
@@ -100,10 +100,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
             intent.type="text/plain"
             startActivity(Intent.createChooser(intent,"اختر تطبيق"))
         }
-        //////********////////
-        //toolbar.title = ""
-        //setSupportActionBar(toolbar)
-        //////********/////////
+
         view.freePoints.setOnClickListener(){
             mediaPlayerClick.start()
             MyDialogP().openDialog(this,tv_points, {empty()})

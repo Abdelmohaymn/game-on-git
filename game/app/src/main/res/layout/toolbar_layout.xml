@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
-    android:background="#3CAA68"
+    android:background="#ffffff"
     android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme">
 
@@ -16,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="?attr/actionModeCloseDrawable" />
+
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -31,7 +33,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="3dp"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:srcCompat="@android:drawable/ic_input_add"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_points"
@@ -41,10 +44,26 @@
             android:layout_alignParentRight="true"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="2dp"
-            android:layout_marginRight="39dp"
-            android:text=""
+            android:layout_marginRight="35dp"
+            android:layout_toLeftOf="@+id/iv_points_toolbar"
+            android:fontFamily="sans-serif-condensed-medium"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_theGames"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="5dp"
+            android:text="الألعاب"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            tools:visibility="visible" />
+
 
     </RelativeLayout>
 

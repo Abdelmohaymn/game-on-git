@@ -97,6 +97,7 @@ import java.io.OutputStream
         Log.d("debugMyCode","انتهي وضع الاكشن بار ")
 
         tv_points.text= points.toString()
+        tv_theGames.visibility=View.GONE
         count= getInt(this,"count",0)
         setQuestions(count)
         if (getBool(this,"bu Ads",false)){
@@ -112,7 +113,7 @@ import java.io.OutputStream
 
         bu_back.setOnClickListener(){
             mediaPlayerClick!!.start()
-            val intent=Intent(this,MainActivity::class.java)
+            val intent=Intent(this,GamesActivity::class.java)
             if (playAds){
                 mInterstitialAd!!.adListener = object: AdListener() {
                     override fun onAdClosed() {
@@ -139,6 +140,18 @@ import java.io.OutputStream
             mediaPlayerClick!!.start()
             mRewardedVideoAd!!.show()
             whoClicked=true
+        }
+
+        buAskFriends.setOnClickListener(){
+            mediaPlayerClick!!.start()
+            val intent= Intent()
+            intent.action=Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_TEXT,"${Question.text}"+"؟"+"\n"
+                    +"حمل لعبة أسئلة إسلامية من هنا"+"\n"+
+                    "https://play.google.com/store/apps/com.elcaesar.mygame")
+            intent.type="text/plain"
+            Intent.createChooser(intent,"إسأل أصدقائك")
+            startActivity(intent)
         }
 
         answer1.setOnClickListener {
@@ -432,10 +445,6 @@ import java.io.OutputStream
 
     override fun onRewardedVideoAdClosed() {
         loadRewardedVideoAd()
-        /*if (whoClicked){
-            buAds.visibility= View.GONE
-        }*/
-
     }
 
     override fun onRewardedVideoAdLeftApplication() {
@@ -463,8 +472,6 @@ import java.io.OutputStream
 
         if (whoClicked){
             deleteAnswer()
-            buAds.visibility= View.GONE
-            remove(this,"bu Ads")
         }else{
             if (points == 0) {
                 points+=2
@@ -477,6 +484,8 @@ import java.io.OutputStream
 
         }
         saveInt(this,"points",points)
+        remove(this,"bu Ads")
+        buAds.visibility= View.GONE
 
     }
 
@@ -490,7 +499,7 @@ import java.io.OutputStream
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent=Intent(this,MainActivity::class.java)
+        val intent=Intent(this,GamesActivity::class.java)
         startActivity(intent)
     }
 

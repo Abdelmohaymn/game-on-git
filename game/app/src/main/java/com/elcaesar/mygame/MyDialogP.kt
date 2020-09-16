@@ -1,5 +1,6 @@
 package com.elcaesar.mygame
 
+import android.R
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
@@ -9,13 +10,10 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.elcaesar.mygame.QuestionsActivity.Companion.loadRewardedVideoAd
 import com.elcaesar.mygame.QuestionsActivity.Companion.mRewardedVideoAd
 import com.elcaesar.mygame.QuestionsActivity.Companion.mediaPlayerClick
 import com.elcaesar.mygame.QuestionsActivity.Companion.points
-import kotlinx.android.synthetic.main.alert_dialog_freepoints.*
-import kotlinx.android.synthetic.main.alert_dialog_freepoints.view.*
 
 
 @Suppress("DEPRECATION")
@@ -62,8 +60,9 @@ open class MyDialogP  {
 
         val mAlertDialog = mBuilder.show()
         mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         mDialogView.ivExit.setOnClickListener {
-            mediaPlayerClick!!.start()
+            //mediaPlayerClick!!.start()
             mAlertDialog.dismiss()
         }
 
@@ -97,13 +96,12 @@ open class MyDialogP  {
             if (mRewardedVideoAd!!.isLoaded){
                 mRewardedVideoAd!!.show()
             }else{
-               loadRewardedVideoAd()
+                loadRewardedVideoAd()
                 Toast.makeText(context,"لا يتوفر فديو الان حاول لاحقا !!",Toast.LENGTH_SHORT).show()
             }
 
         }
 
     }
-
 
 }
