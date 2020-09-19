@@ -8,23 +8,21 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
-import com.elcaesar.mygame.AdsClass.Companion.bannerAd
-import com.elcaesar.mygame.AdsClass.Companion.mAdView
+import com.elcaesar.mygame.AdsClass.Companion.MyRewardedAd
 import com.elcaesar.mygame.AdsClass.Companion.mInterstitialAd
+import com.elcaesar.mygame.AdsClass.Companion.mRewardedVideoAd
 import com.elcaesar.mygame.AdsClass.Companion.mobileAds
-import com.elcaesar.mygame.MyDialogP.Companion.getBool
-import com.elcaesar.mygame.MyDialogP.Companion.getInt
-import com.elcaesar.mygame.MyDialogP.Companion.playAds
-import com.elcaesar.mygame.MyDialogP.Companion.remove
-import com.elcaesar.mygame.MyDialogP.Companion.saveBool
+import com.elcaesar.mygame.Dialogs.Companion.getBool
+import com.elcaesar.mygame.Dialogs.Companion.getInt
+import com.elcaesar.mygame.Dialogs.Companion.playAds
+import com.elcaesar.mygame.Dialogs.Companion.remove
+import com.elcaesar.mygame.Dialogs.Companion.saveBool
+import com.elcaesar.mygame.QuestionsActivity.Companion.openDialog
 import com.elcaesar.mygame.QuestionsActivity.Companion.points
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_sheet.view.*
@@ -38,7 +36,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        //getWindow.setStatusBarColor(ContextCompat.getColor(activity,R.color.my_statusbar_color))
         var mediaPlayerClick:MediaPlayer = MediaPlayer.create(this,R.raw.click)
         val amanager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
@@ -49,6 +47,8 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
         //bottomSheetDialog.setCancelable(false)
 
         mobileAds(this)
+        MyRewardedAd(this)
+        mRewardedVideoAd!!.rewardedVideoAdListener = QuestionsActivity()
         points= getInt(this, "points", 15)
         playAds= getBool(this,"play Ads",false)
 
@@ -67,9 +67,11 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
                     mInterstitialAd!!.show()
                 } else {
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_right0,R.anim.slide_right00)
                 }
             }else{
                 startActivity(intent)
+                overridePendingTransition(R.anim.slide_right0,R.anim.slide_right00)
             }
         }
 
@@ -103,7 +105,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 
         view.freePoints.setOnClickListener(){
             mediaPlayerClick.start()
-            MyDialogP().openDialog(this,tv_points, {empty()})
+            openDialog(this,tv_points,mediaPlayerClick, {empty()})
         }
 
         view.buRate.setOnClickListener(){
@@ -130,5 +132,6 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
         finishAffinity()
         remove(this, "bu Ads")
     }
+
 
 }

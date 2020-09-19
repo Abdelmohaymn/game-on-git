@@ -3,14 +3,13 @@ package com.elcaesar.mygame
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.MediaPlayer
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.elcaesar.mygame.MyDialogP.Companion.getBool
-import com.elcaesar.mygame.MyDialogP.Companion.getInt
-import com.elcaesar.mygame.MyDialogP.Companion.playAds
+import com.elcaesar.mygame.AdsClass.Companion.mInterstitialAd
+import com.elcaesar.mygame.Dialogs.Companion.getInt
+import com.elcaesar.mygame.Dialogs.Companion.playAds
 import com.elcaesar.mygame.QuestionsActivity.Companion.count
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -36,39 +35,49 @@ class GamesActivity : AppCompatActivity() {
             mediaPlayerClick.start()
             val intent=Intent(this,MainActivity::class.java)
             if (playAds){
-                AdsClass.mInterstitialAd!!.adListener = object: AdListener() {
+                mInterstitialAd!!.adListener = object: AdListener() {
                     override fun onAdClosed() {
-                        AdsClass.mInterstitialAd!!.loadAd(AdRequest.Builder().build())
+                        mInterstitialAd!!.loadAd(AdRequest.Builder().build())
                         startActivity(intent)
+                        //overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
                     }
                 }
-                if (AdsClass.mInterstitialAd!!.isLoaded) {
-                    AdsClass.mInterstitialAd!!.show()
+                if (mInterstitialAd!!.isLoaded) {
+                    mInterstitialAd!!.show()
                 } else {
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
                 }
             }else{
                 startActivity(intent)
+                overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
             }
         }
 
         first_game.setOnClickListener(){
             mediaPlayerClick.start()
-            val intent= Intent(this,QuestionsActivity::class.java)
-            if (playAds){
-                AdsClass.mInterstitialAd!!.adListener = object: AdListener() {
-                    override fun onAdClosed() {
-                        AdsClass.mInterstitialAd!!.loadAd(AdRequest.Builder().build())
-                        startActivity(intent)
-                    }
-                }
-                if (AdsClass.mInterstitialAd!!.isLoaded) {
-                    AdsClass.mInterstitialAd!!.show()
-                } else {
-                    startActivity(intent)
-                }
+            if (count==24){
+                Dialogs().openAgainDialog(this,mediaPlayerClick,QuestionsActivity(),{anim()},1)
             }else{
-                startActivity(intent)
+                val intent= Intent(this,QuestionsActivity::class.java)
+                if (playAds){
+                    mInterstitialAd!!.adListener = object: AdListener() {
+                        override fun onAdClosed() {
+                            mInterstitialAd!!.loadAd(AdRequest.Builder().build())
+                            startActivity(intent)
+                            //overridePendingTransition(R.anim.slide_right0,R.anim.slide_right00)
+                        }
+                    }
+                    if (mInterstitialAd!!.isLoaded) {
+                        mInterstitialAd!!.show()
+                    } else {
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.slide_right0,R.anim.slide_right00)
+                    }
+                }else{
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_right0,R.anim.slide_right00)
+                }
             }
         }
 
@@ -87,6 +96,11 @@ class GamesActivity : AppCompatActivity() {
         super.onBackPressed()
         val intent=Intent(this,MainActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
+    }
+
+    fun anim(){
+        overridePendingTransition(R.anim.slide_right0,R.anim.slide_right00)
     }
 
 }

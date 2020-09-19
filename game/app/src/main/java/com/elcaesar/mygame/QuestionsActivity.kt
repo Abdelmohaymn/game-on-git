@@ -5,32 +5,38 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Color.parseColor
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.elcaesar.mygame.AdsClass.Companion.MyRewardedAd
 import com.elcaesar.mygame.AdsClass.Companion.bannerAd
+import com.elcaesar.mygame.AdsClass.Companion.loadRewardedVideoAd
 import com.elcaesar.mygame.AdsClass.Companion.mAdView
 import com.elcaesar.mygame.AdsClass.Companion.mInterstitialAd
+import com.elcaesar.mygame.AdsClass.Companion.mRewardedVideoAd
 import com.elcaesar.mygame.AdsClass.Companion.mobileAds
-import com.elcaesar.mygame.MyDialogP.Companion.getBool
-import com.elcaesar.mygame.MyDialogP.Companion.getInt
-import com.elcaesar.mygame.MyDialogP.Companion.playAds
-import com.elcaesar.mygame.MyDialogP.Companion.remove
-import com.elcaesar.mygame.MyDialogP.Companion.saveBool
-import com.elcaesar.mygame.MyDialogP.Companion.saveInt
-import com.google.android.gms.ads.*
+import com.elcaesar.mygame.Dialogs.Companion.getBool
+import com.elcaesar.mygame.Dialogs.Companion.getInt
+import com.elcaesar.mygame.Dialogs.Companion.playAds
+import com.elcaesar.mygame.Dialogs.Companion.remove
+import com.elcaesar.mygame.Dialogs.Companion.saveBool
+import com.elcaesar.mygame.Dialogs.Companion.saveInt
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.reward.RewardItem
-import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_questions.*
 import kotlinx.android.synthetic.main.alert_dialog_freepoints.*
+import kotlinx.android.synthetic.main.alert_dialog_freepoints.view.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -41,35 +47,31 @@ import java.io.OutputStream
 
     private var mProductList: List<Questions>? = null
     private var mDBHelper: DatabaseHelper? = null
+    lateinit var mediaPlayerC:MediaPlayer
+    lateinit var mediaPlayerW:MediaPlayer
+    lateinit var mediaPlayerClick:MediaPlayer
     var rand:Int?=null
     var whoClicked=false
     var cnt=0
-
 
     @SuppressLint("ResourceAsColor", "WrongConstant", "ResourceType", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questions)
 
-        Log.d("debugMyCode","بدأ تحميل الاعلان")
-
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
+        MyRewardedAd(this)
         mRewardedVideoAd!!.rewardedVideoAdListener = this
-        loadRewardedVideoAd()
+
         // إعلان فيديو بمكافئ
-        Log.d("debugMyCode","انتهي تحميل الاعلان وبدأ تحميل الاعلان الثاني")
 
         mAdView = findViewById(R.id.adView)
         bannerAd()
 
-        Log.d("debugMyCode","انتهي تحميل الاعلان الثاني وبدأ تحميل الاعلان الثالث")
 
         mobileAds(this)
 
-        Log.d("debugMyCode","انتهي تحميل الاعلان الثالث وبدأ تحميل الداتا بيز")
 
         mDBHelper = DatabaseHelper(this)
-        Log.d("debugMyCode","انتهي تحميل الداتا بيز وجاري نسخها")
 
         //Check exists database
         val database = applicationContext.getDatabasePath(DatabaseHelper.DBNAME)
@@ -78,23 +80,15 @@ import java.io.OutputStream
             //Copy db
             copyDatabase(this)
         }
-        Log.d("debugMyCode","انتهي نسخ الداتا بيز وجاري جلب البيانات")
 
         //Get product list in db when db exists
         mProductList = mDBHelper!!.listProduct
         ///////////////////
-        Log.d("debugMyCode","انتهي جلب البيانات وجاري وضع اكشن بار")
-
 
         mediaPlayerC = MediaPlayer.create(this,R.raw.correctt)
         mediaPlayerW = MediaPlayer.create(this,R.raw.incorrectt)
         mediaPlayerClick = MediaPlayer.create(this,R.raw.click)
 
-
-        //toolbar.title = ""
-        //setSupportActionBar(toolbar)
-
-        Log.d("debugMyCode","انتهي وضع الاكشن بار ")
 
         tv_points.text= points.toString()
         tv_theGames.visibility=View.GONE
@@ -112,46 +106,48 @@ import java.io.OutputStream
 
 
         bu_back.setOnClickListener(){
-            mediaPlayerClick!!.start()
+            mediaPlayerClick.start()
             val intent=Intent(this,GamesActivity::class.java)
             if (playAds){
                 mInterstitialAd!!.adListener = object: AdListener() {
                     override fun onAdClosed() {
                         mInterstitialAd!!.loadAd(AdRequest.Builder().build())
                         startActivity(intent)
+                        //overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
                     }
                 }
                 if (mInterstitialAd!!.isLoaded) {
                     mInterstitialAd!!.show()
                 } else {
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
                 }
             }else{
                 startActivity(intent)
+                overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
             }
         }
 
         iv_points_toolbar.setOnClickListener(){
-            mediaPlayerClick!!.start()
-            MyDialogP().openDialog(this,tv_points, {isEnable()})
+            mediaPlayerClick.start()
+            openDialog(this,tv_points,mediaPlayerClick, {isEnable()})
         }
 
         buAds.setOnClickListener(){
-            mediaPlayerClick!!.start()
+            mediaPlayerClick.start()
             mRewardedVideoAd!!.show()
             whoClicked=true
         }
 
         buAskFriends.setOnClickListener(){
-            mediaPlayerClick!!.start()
+            mediaPlayerClick.start()
             val intent= Intent()
             intent.action=Intent.ACTION_SEND
             intent.putExtra(Intent.EXTRA_TEXT,"${Question.text}"+"؟"+"\n"
                     +"حمل لعبة أسئلة إسلامية من هنا"+"\n"+
                     "https://play.google.com/store/apps/com.elcaesar.mygame")
             intent.type="text/plain"
-            Intent.createChooser(intent,"إسأل أصدقائك")
-            startActivity(intent)
+            startActivity(Intent.createChooser(intent,"اسأل أصدقائك"))
         }
 
         answer1.setOnClickListener {
@@ -228,19 +224,12 @@ import java.io.OutputStream
         answer4.setBackgroundResource(R.drawable.button_answer)
     }
 
-    private fun removeValues(){
-        remove(this,"back1")
-        remove(this,"back2")
-        remove(this,"back3")
-        remove(this,"back4")
-        //remove(this,"is correct")
-    }
 
     @SuppressLint("ResourceAsColor")
     private fun Answers(button: Button){
         if(points>0){
             if (button.text==mProductList!![count].correct) {
-                mediaPlayerC!!.start()
+                mediaPlayerC.start()
                 count++
                 cnt=0
                 whoClicked=false
@@ -252,28 +241,33 @@ import java.io.OutputStream
                     answer4 -> saveInt(this,"back4",R.drawable.button_answer3)
                 }
 
-                //playAnim(Question,0)
-                if (playAds){
-                    mInterstitialAd!!.adListener = object: AdListener() {
-                        override fun onAdClosed() {
-                            mInterstitialAd!!.loadAd(AdRequest.Builder().build())
+                if (count==24){
+                   // count--
+                    setQuestions(count-1)
+                    Dialogs().openSuccessDialog(this,mediaPlayerClick,{anim()})
+                }else{
+                    if (playAds){
+                        mInterstitialAd!!.adListener = object: AdListener() {
+                            override fun onAdClosed() {
+                                mInterstitialAd!!.loadAd(AdRequest.Builder().build())
+                                playAnim(Question,0)
+                            }
+                        }
+                        if (mInterstitialAd!!.isLoaded) {
+                            mInterstitialAd!!.show()
+                        } else {
                             playAnim(Question,0)
                         }
-                    }
-                    if (mInterstitialAd!!.isLoaded) {
-                        mInterstitialAd!!.show()
-                    } else {
+                    }else{
                         playAnim(Question,0)
                     }
-                }else{
-                    playAnim(Question,0)
                 }
 
 
             }else{
                 button.isClickable=false
-                mediaPlayerW!!.seekTo(0)
-                mediaPlayerW!!.start()
+                mediaPlayerW.seekTo(0)
+                mediaPlayerW.start()
                 points--
                 tv_points.text = points.toString()
                 button.setBackgroundResource(R.drawable.button_answer2)
@@ -287,7 +281,7 @@ import java.io.OutputStream
 
             if (points==0){
                 buAds.isClickable=false
-                MyDialogP().openDialog(this,tv_points, { isEnable() })
+                openDialog(this,tv_points,mediaPlayerClick,{ isEnable() })
             }
 
         }else{
@@ -393,7 +387,7 @@ import java.io.OutputStream
                         isVisible()
                         buAds.isClickable=true
                         ansBackground()
-                        removeValues()
+                        removeValues(this@QuestionsActivity)
 
                     }
 
@@ -408,17 +402,72 @@ import java.io.OutputStream
     companion object {
             var points=15
             var count:Int=0
-            var mediaPlayerC:MediaPlayer?=null
-            var mediaPlayerW:MediaPlayer?=null
-            var mediaPlayerClick:MediaPlayer?=null
-            var mRewardedVideoAd: RewardedVideoAd? = null
 
-        fun loadRewardedVideoAd() {
-            if (!mRewardedVideoAd!!.isLoaded) {
-                mRewardedVideoAd!!.loadAd("ca-app-pub-3940256099942544/5224354917",
-                        AdRequest.Builder().build())
-            }
+
+        fun removeValues(context: Context){
+            remove(context,"back1")
+            remove(context,"back2")
+            remove(context,"back3")
+            remove(context,"back4")
         }
+
+    ///////// Dialog 1 //////////
+
+        fun openDialog(context: Context, textView: TextView,mediaClick:MediaPlayer, enable: () -> Unit) {
+            val mDialogView =
+                LayoutInflater.from(context).inflate(R.layout.alert_dialog_freepoints, null)
+            val mBuilder = AlertDialog.Builder(context)
+                .setView(mDialogView)
+                .setCancelable(false)
+
+            val mAlertDialog = mBuilder.create()
+            mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            mAlertDialog.window!!.attributes.windowAnimations=R.style.DialogAnimation3
+            mAlertDialog.show()
+
+            mDialogView.ivExit.setOnClickListener {
+                mediaClick.start()
+                mAlertDialog.dismiss()
+            }
+
+            mDialogView.switch_playAds.isChecked= getBool(context,"is checked ads",false)
+            mDialogView.switch_playAds.isClickable = getBool(context,"click play ads",true)
+
+            mDialogView.switch_playAds.setOnCheckedChangeListener { _, isChecked: Boolean ->
+                mediaClick.start()
+                if (isChecked) {
+                    playAds = true
+                    mDialogView.switch_playAds.isClickable = false
+                    saveBool(context,"is checked ads",true)
+                    saveBool(context,"click play ads",false)
+                    saveBool(context,"play Ads", playAds)
+                }
+                if (points == 0) {
+                    points += 25
+                    textView.text = points.toString()
+                    enable()
+                } else {
+                    points += 25
+                    textView.text = points.toString()
+                }
+
+                saveInt(context,"points", points)
+            }
+
+            mDialogView.watch_vid.setOnClickListener() {
+                //mediaPlayerClick.start()
+                if (mRewardedVideoAd!!.isLoaded){
+                    mediaClick.start()
+                    mRewardedVideoAd!!.show()
+                }else{
+                    loadRewardedVideoAd()
+                    Toast.makeText(context,"لا يتوفر فديو الان حاول لاحقا !!",Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+        }
+
     }
 
 
@@ -501,6 +550,11 @@ import java.io.OutputStream
         super.onBackPressed()
         val intent=Intent(this,GamesActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
+    }
+
+    fun anim(){
+        overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
     }
 
 }
