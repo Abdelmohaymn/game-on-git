@@ -93,6 +93,7 @@ import java.io.OutputStream
         tv_points.text= points.toString()
         tv_theGames.visibility=View.GONE
         count= getInt(this,"count",0)
+        //count=192
         setQuestions(count)
         if (getBool(this,"bu Ads",false)){
             buAds.visibility=View.VISIBLE
@@ -231,6 +232,8 @@ import java.io.OutputStream
             if (button.text==mProductList!![count].correct) {
                 mediaPlayerC.start()
                 count++
+                points++
+                tv_points.text = points.toString()
                 cnt=0
                 whoClicked=false
                 button.setBackgroundResource(R.drawable.button_answer3)
@@ -241,8 +244,7 @@ import java.io.OutputStream
                     answer4 -> saveInt(this,"back4",R.drawable.button_answer3)
                 }
 
-                if (count==24){
-                   // count--
+                if (count==200){
                     setQuestions(count-1)
                     Dialogs().openSuccessDialog(this,mediaPlayerClick,{anim()})
                 }else{
@@ -400,7 +402,7 @@ import java.io.OutputStream
 ///////// Companion Object ///////////
 
     companion object {
-            var points=15
+            var points=10
             var count:Int=0
 
 
@@ -440,7 +442,7 @@ import java.io.OutputStream
                     mDialogView.switch_playAds.isClickable = false
                     saveBool(context,"is checked ads",true)
                     saveBool(context,"click play ads",false)
-                    saveBool(context,"play Ads", playAds)
+                    saveBool(context,"play Ads", true)
                 }
                 if (points == 0) {
                     points += 25
@@ -455,7 +457,6 @@ import java.io.OutputStream
             }
 
             mDialogView.watch_vid.setOnClickListener() {
-                //mediaPlayerClick.start()
                 if (mRewardedVideoAd!!.isLoaded){
                     mediaClick.start()
                     mRewardedVideoAd!!.show()

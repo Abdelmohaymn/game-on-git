@@ -1,15 +1,22 @@
 package com.elcaesar.mygame;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.view.View;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.icu.text.Transliterator.REVERSE;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DBNAME = "mygame.db";
+    public static final String DBNAME = "game.db";     /////
     public static final String DBLOCATION = "/data/data/com.elcaesar.mygame/databases/";
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -57,6 +64,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         closeDatabase();
         return productList;
+    }
+
+    public List<QuesTrueFalse> getListProduct2() {
+        QuesTrueFalse product;
+        List<QuesTrueFalse> productList2 = new ArrayList<>();
+        openDatabase();
+        Cursor cursor = mDatabase.rawQuery("SELECT * FROM TrueFalse", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            product = new QuesTrueFalse(cursor.getString(0), cursor.getString(1), cursor.getString(2));
+            productList2.add(product);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabase();
+        return productList2;
     }
 
 

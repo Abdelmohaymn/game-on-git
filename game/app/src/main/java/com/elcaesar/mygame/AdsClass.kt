@@ -58,17 +58,4 @@ class AdsClass()  {
 
     }
 
-    /*fun RewardedAd(context: Context){
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
-        mRewardedVideoAd!!.rewardedVideoAdListener = this
-        loadRewardedVideoAd()
-    }
-
-    fun loadRewardedVideoAd() {
-        if (!mRewardedVideoAd!!.isLoaded) {
-            mRewardedVideoAd!!.loadAd("ca-app-pub-3940256099942544/5224354917",
-                AdRequest.Builder().build())
-        }
-    }*/
-
 }

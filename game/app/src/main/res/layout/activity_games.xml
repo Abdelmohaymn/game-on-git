@@ -14,7 +14,6 @@
         android:id="@+id/first_game"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@+id/second_game"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
@@ -69,64 +68,6 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="#4CB6E6"
-        app:cardCornerRadius="25dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:text="أسئلة عن الرسول"
-            android:textColor="#ffffff"
-            android:textSize="27sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:text="(لعبة اختيار من متعدد)"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
-            android:typeface="normal" />
-
-        <TextView
-            android:id="@+id/tv_num2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="cursive"
-            android:text="0/0"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="start"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            app:srcCompat="@android:drawable/ic_lock_idle_lock" />
-
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/third_game"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@+id/first_game"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
         app:cardBackgroundColor="#38638A"
         app:cardCornerRadius="25dp">
 
@@ -151,7 +92,7 @@
             android:typeface="normal" />
 
         <TextView
-            android:id="@+id/tv_num3"
+            android:id="@+id/tv_num2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -164,23 +105,13 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="start"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            app:srcCompat="@android:drawable/ic_lock_idle_lock" />
-
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/fourth_game"
+        android:id="@+id/third_game"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@+id/first_game"
-
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
@@ -210,7 +141,7 @@
             android:typeface="normal" />
 
         <TextView
-            android:id="@+id/tv_num4"
+            android:id="@+id/tv_num3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

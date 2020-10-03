@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".GamesActivity"></activity>
+        <activity android:name=".TrueAndFalseActivity"></activity>
+        <activity android:name=".GamesActivity" />
         <activity android:name=".QuestionsActivity" />
 
         <meta-data

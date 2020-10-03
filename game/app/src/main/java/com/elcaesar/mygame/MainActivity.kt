@@ -49,7 +49,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
         mobileAds(this)
         MyRewardedAd(this)
         mRewardedVideoAd!!.rewardedVideoAdListener = QuestionsActivity()
-        points= getInt(this, "points", 15)
+        points= getInt(this, "points", 10)
         playAds= getBool(this,"play Ads",false)
 
 
@@ -131,6 +131,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
         super.onBackPressed()
         finishAffinity()
         remove(this, "bu Ads")
+        remove(this, "bu Ads2")
     }
 
 

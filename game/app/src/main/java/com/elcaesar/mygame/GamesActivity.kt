@@ -11,6 +11,7 @@ import com.elcaesar.mygame.AdsClass.Companion.mInterstitialAd
 import com.elcaesar.mygame.Dialogs.Companion.getInt
 import com.elcaesar.mygame.Dialogs.Companion.playAds
 import com.elcaesar.mygame.QuestionsActivity.Companion.count
+import com.elcaesar.mygame.TrueAndFalseActivity.Companion.count2
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_games.*
@@ -27,7 +28,9 @@ class GamesActivity : AppCompatActivity() {
 
         iv_points_toolbar.visibility= View.GONE
         count=getInt(this,"count",0)
-        tv_num1.text=count.toString()+"/24"
+        tv_num1.text=count.toString()+"/200"
+        count2=getInt(this,"count2",0)
+        tv_num2.text=count2.toString()+"/5"
         //toolbar.setBackgroundColor(R.color.material_on_surface_stroke);
 
 
@@ -56,7 +59,7 @@ class GamesActivity : AppCompatActivity() {
 
         first_game.setOnClickListener(){
             mediaPlayerClick.start()
-            if (count==24){
+            if (count==200){
                 Dialogs().openAgainDialog(this,mediaPlayerClick,QuestionsActivity(),{anim()},1)
             }else{
                 val intent= Intent(this,QuestionsActivity::class.java)
@@ -65,7 +68,6 @@ class GamesActivity : AppCompatActivity() {
                         override fun onAdClosed() {
                             mInterstitialAd!!.loadAd(AdRequest.Builder().build())
                             startActivity(intent)
-                            //overridePendingTransition(R.anim.slide_right0,R.anim.slide_right00)
                         }
                     }
                     if (mInterstitialAd!!.isLoaded) {
@@ -82,13 +84,35 @@ class GamesActivity : AppCompatActivity() {
         }
 
         second_game.setOnClickListener(){
-            Toast.makeText(this,"هذه اللعبة سيتم فتحها قريبا",Toast.LENGTH_LONG).show()
+            mediaPlayerClick.start()
+            if (count2==5){
+                Dialogs().openAgainDialog(this,mediaPlayerClick,TrueAndFalseActivity(),{anim()},2)
+            }else{
+                val intent= Intent(this,TrueAndFalseActivity::class.java)
+                if (playAds){
+                    mInterstitialAd!!.adListener = object: AdListener() {
+                        override fun onAdClosed() {
+                            mInterstitialAd!!.loadAd(AdRequest.Builder().build())
+                            startActivity(intent)
+                        }
+                    }
+                    if (mInterstitialAd!!.isLoaded) {
+                        mInterstitialAd!!.show()
+                    } else {
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.slide_right0,R.anim.slide_right00)
+                    }
+                }else{
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_right0,R.anim.slide_right00)
+                }
+            }
         }
+
         third_game.setOnClickListener(){
-            Toast.makeText(this,"هذه اللعبة سيتم فتحها قريبا",Toast.LENGTH_LONG).show()
-        }
-        fourth_game.setOnClickListener(){
-            Toast.makeText(this,"هذه اللعبة سيتم فتحها قريبا",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"vvvvv",Toast.LENGTH_LONG).show()
+            //val intent= Intent(this,TrueAndFalseActivity::class.java)
+            //startActivity(intent)
         }
     }
 

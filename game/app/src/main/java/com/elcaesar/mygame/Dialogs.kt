@@ -2,35 +2,20 @@ package com.elcaesar.mygame
 
 import android.R
 import android.app.Activity
-import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.startActivity
-import com.elcaesar.mygame.QuestionsActivity.Companion.count
 import com.elcaesar.mygame.QuestionsActivity.Companion.removeValues
-import kotlinx.android.synthetic.main.activity_games.*
-import kotlinx.android.synthetic.main.alert_dialog_freepoints.view.*
 import kotlinx.android.synthetic.main.dialog_again.view.*
 import kotlinx.android.synthetic.main.dialog_success.view.*
-import kotlinx.android.synthetic.main.dialog_success.view.watch_vid
-import kotlin.Result.Companion.success
-
 
 @Suppress("DEPRECATION")
 open class Dialogs:AppCompatActivity() {
@@ -127,9 +112,15 @@ open class Dialogs:AppCompatActivity() {
         mDialogView.iv_playAgain.setOnClickListener{
             mediaClick.start()
             when(int){
-                1 -> saveInt(context,"count",0)
+                1 -> {
+                    saveInt(context,"count",0)
+                    removeValues(context)
+                }
+
+                2 -> {
+                    saveInt(context,"count2",0)
+                }
             }
-            removeValues(context)
             val intent=Intent(context,activity::class.java)
             context.startActivity(intent)
             anim()
