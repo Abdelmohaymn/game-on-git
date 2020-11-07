@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/alert_dialog_background"
     android:orientation="vertical"
     android:padding="2dp">
@@ -13,27 +13,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="5dp"
-        android:paddingTop="8dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="5dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/iv_Exit2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_delete" />
+            android:layout_marginTop="3dp"
+            app:srcCompat="@drawable/exit_free" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
+            android:fontFamily="@font/baloo"
             android:text="إعادة اللعب"
             android:textAllCaps="false"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textColor="#000000"
+            android:textSize="@dimen/_20ssp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/blue" />
 
     <TextView
         android:id="@+id/textView"
@@ -41,18 +48,22 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/baloo"
         android:gravity="center"
         android:padding="5dp"
         android:text="لقد أكملت هذه اللعبة بنجاح إذا أردت بدء اللعبة من جديد اضغط علي الزر في الأسفل "
-        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:textColor="#7C7A7A"
+        android:textSize="@dimen/_14ssp"
         android:textStyle="italic" />
 
     <ImageView
         android:id="@+id/iv_playAgain"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:srcCompat="@android:drawable/ic_menu_rotate" />
+        android:layout_marginBottom="15dp"
+        app:srcCompat="@drawable/again" />
 
 </LinearLayout>

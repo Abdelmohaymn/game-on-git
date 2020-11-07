@@ -1,131 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:orientation="vertical"
     tools:context=".TrueAndFalseActivity">
 
     <include
         android:id="@+id/TF_TBar"
         layout="@layout/toolbar_layout" />
 
-    <include
-        android:id="@+id/TF_Ad"
-        layout="@layout/banner_ad_layout" />
-
     <Button
         android:id="@+id/Correction"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TF_TBar"
+        android:layout_height="0dp"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="40dp"
         android:layout_marginRight="10dp"
-        android:padding="2dp"
-        android:gravity="center"
-        android:text="التصحيح"
+        android:layout_weight="1"
         android:background="@drawable/button_answer"
-        android:textSize="18sp"
+        android:clickable="false"
+        android:fontFamily="@font/arial"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="التصحيح"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/_15ssp"
         android:textStyle="bold|italic" />
 
     <Button
         android:id="@+id/QuesTF"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TF_TBar"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="135dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_60sdp"
+        android:layout_weight="1"
         android:background="@drawable/button_question"
+        android:clickable="false"
+        android:fontFamily="@font/arial"
         android:padding="2dp"
         android:text="Question"
-        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/_17ssp"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/QuesTF"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="110dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:padding="2dp">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_true"
-            android:text="خطأ"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:srcCompat="@android:drawable/ic_media_play" />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_true"
-            android:text="صح"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/TF_lay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/QuesTF"
+        android:layout_height="0dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="110dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:layout_weight="2"
         android:orientation="horizontal"
-        android:padding="2dp">
+        android:padding="2dp"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="465dp">
 
         <Button
             android:id="@+id/bu_False"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
+            android:layout_height="@dimen/_70sdp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_question"
+            android:fontFamily="@font/arial"
             android:text="خطأ"
-            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_17ssp"
             android:textStyle="bold"
             app:srcCompat="@android:drawable/ic_media_play" />
 
         <Button
             android:id="@+id/bu_True"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+            android:layout_height="@dimen/_70sdp"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_question"
+            android:fontFamily="@font/arial"
             android:text="صح"
-            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_17ssp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -133,10 +97,15 @@
 
     <ImageView
         android:id="@+id/bu_Next_TF"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_above="@+id/TF_Ad"
-        android:layout_below="@+id/TF_lay"
-        android:layout_marginLeft="25dp"
-        app:srcCompat="@android:drawable/ic_menu_revert" />
-</RelativeLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_40sdp"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/next" />
+
+    <include
+        android:id="@+id/TF_Ad"
+        layout="@layout/banner_ad_layout" />
+
+</LinearLayout>

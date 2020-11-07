@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
     tools:context=".GamesActivity">
 
     <include layout="@layout/toolbar_layout" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/first_game"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="#38638A"
-        app:cardCornerRadius="25dp">
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:cardCornerRadius="25dp"
+        app:strokeColor="#332B2B"
+        app:strokeWidth="2dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/baloo"
             android:text="تاريخ الإسلام"
-            android:textColor="#ffffff"
-            android:textSize="27sp"
-            android:textStyle="bold" />
+            android:textColor="#332B2B"
+            android:textSize="@dimen/_24ssp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="(لعبة اختيار من متعدد)"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
+            android:fontFamily="@font/baloo"
+            android:text="(لعبة اختيارات)"
+            android:textColor="#332B2B"
+            android:textSize="@dimen/_17ssp"
             android:typeface="normal" />
 
         <TextView
@@ -52,43 +55,46 @@
             android:fontFamily="cursive"
             android:text="0/0"
             android:textAllCaps="false"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
+            android:textColor="#332B2B"
+            android:textSize="@dimen/_17ssp"
             android:textStyle="bold" />
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/second_game"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@+id/first_game"
-        android:layout_marginStart="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="#38638A"
-        app:cardCornerRadius="25dp">
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:cardCornerRadius="25dp"
+        app:strokeColor="#332B2B"
+        app:strokeWidth="2dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/baloo"
             android:text="معلومات إسلامية"
-            android:textColor="#ffffff"
-            android:textSize="27sp"
-            android:textStyle="bold" />
+            android:textColor="#332B2B"
+            android:textSize="@dimen/_24ssp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
+            android:fontFamily="@font/baloo"
             android:text="(لعبة صح وخطأ)"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
+            android:textColor="#332B2B"
+            android:textSize="@dimen/_17ssp"
             android:typeface="normal" />
 
         <TextView
@@ -101,43 +107,46 @@
             android:fontFamily="cursive"
             android:text="0/0"
             android:textAllCaps="false"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
+            android:textColor="#332B2B"
+            android:textSize="@dimen/_17ssp"
             android:textStyle="bold" />
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/third_game"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="#4CB6E6"
-        app:cardCornerRadius="25dp">
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:cardCornerRadius="25dp"
+        app:strokeColor="#332B2B"
+        app:strokeWidth="2dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:text="من هو الشخص الذي ..؟"
-            android:textColor="#ffffff"
-            android:textSize="27sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="7dp"
+            android:fontFamily="@font/baloo"
+            android:text="أشخاص وكلمات"
+            android:textColor="#332B2B"
+            android:textSize="@dimen/_24ssp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
+            android:fontFamily="@font/baloo"
             android:text="(لعبة تجميع كلمات)"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
+            android:textColor="#332B2B"
+            android:textSize="@dimen/_17ssp"
             android:typeface="normal" />
 
         <TextView
@@ -150,19 +159,11 @@
             android:fontFamily="cursive"
             android:text="0/0"
             android:textAllCaps="false"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
+            android:textColor="#332B2B"
+            android:textSize="@dimen/_17ssp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="start"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            app:srcCompat="@android:drawable/ic_lock_idle_lock" />
 
-
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

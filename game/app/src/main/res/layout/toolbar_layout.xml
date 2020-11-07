@@ -3,37 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
-    android:background="#ffffff"
+    android:background="@color/colorPrimary"
     android:minHeight="?attr/actionBarSize"
+    app:contentInsetStart="0dp"
     android:theme="?attr/actionBarTheme">
 
     <ImageView
         android:id="@+id/bu_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+        android:layout_width="@dimen/_26sdp"
+        android:layout_height="@dimen/_26sdp"
+        android:layout_marginLeft="@dimen/_2sdp"
+        app:srcCompat="@drawable/back" />
 
 
     <RelativeLayout
+        android:id="@+id/lay_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/iv_points_toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="3dp"
-            app:srcCompat="@android:drawable/ic_input_add"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            app:srcCompat="@drawable/coin"
             tools:visibility="visible" />
 
         <TextView
@@ -41,14 +44,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="35dp"
+            android:layout_marginRight="@dimen/_4sdp"
+            android:layout_toStartOf="@+id/iv_points_toolbar"
             android:layout_toLeftOf="@+id/iv_points_toolbar"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/arial"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_theGames"
@@ -57,12 +61,17 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:fontFamily="@font/baloo"
+            android:shadowColor="#000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
             android:text="الألعاب"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            tools:visibility="visible" />
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/_20ssp"
+            android:visibility="visible" />
 
 
     </RelativeLayout>
