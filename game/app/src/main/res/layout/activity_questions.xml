@@ -9,24 +9,26 @@
     android:background="#ffffff"
     tools:context=".MainActivity">
 
-    <include layout="@layout/toolbar_layout" />
+    <include
+        android:id="@+id/barQues"
+        layout="@layout/toolbar_layout" />
 
     <Button
         android:id="@+id/Question"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_27sdp"
+        android:layout_marginRight="@dimen/_10sdp"
         android:layout_weight="1"
         android:background="@drawable/button_question"
         android:clickable="false"
-        android:fontFamily="@font/arial"
+        android:fontFamily="@font/omar"
         android:gravity="center"
         android:padding="2dp"
         android:text="Question"
         android:textColor="#FFFFFF"
-        android:textSize="@dimen/_17ssp"
+        android:textSize="@dimen/_12ssp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -63,7 +65,7 @@
         android:layout_marginBottom="20dp"
         android:layout_weight="4"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/_10sdp">
 
         <Button
             android:id="@+id/answer1"
@@ -72,10 +74,11 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_weight="1"
             android:background="@drawable/button_answer"
-            android:fontFamily="@font/arial"
+            android:fontFamily="@font/omar"
             android:padding="1dp"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/_15ssp" />
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/answer2"
@@ -84,10 +87,11 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_weight="1"
             android:background="@drawable/button_answer"
-            android:fontFamily="@font/arial"
+            android:fontFamily="@font/omar"
             android:padding="1dp"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/_15ssp" />
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/answer3"
@@ -96,10 +100,11 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_weight="1"
             android:background="@drawable/button_answer"
-            android:fontFamily="@font/arial"
+            android:fontFamily="@font/omar"
             android:padding="1dp"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/_15ssp" />
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/answer4"
@@ -107,10 +112,11 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/button_answer"
-            android:fontFamily="@font/arial"
+            android:fontFamily="@font/omar"
             android:padding="1dp"
             android:textColor="#FFFFFF"
-            android:textSize="@dimen/_15ssp" />
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

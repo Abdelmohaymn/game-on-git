@@ -16,7 +16,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.beshoApps.islamy.Dialogs.Companion.saveBool
 import com.beshoApps.islamy.QuestionsActivity.Companion.points
 import com.beshoApps.islamy.QuestionsActivity.Companion.removeValues
 import kotlinx.android.synthetic.main.dialog_again.view.*
@@ -71,6 +70,34 @@ open class Dialogs:AppCompatActivity() {
         }
 
     }
+
+    /*fun openAttentionDialog(context: Context, mediaClick: MediaPlayer) {
+        val mDialogView =
+            LayoutInflater.from(context).inflate(R.layout.attention_ads_dialog, null)
+        val mBuilder = AlertDialog.Builder(context)
+            .setView(mDialogView)
+            .setCancelable(false)
+
+        val mAlertDialog = mBuilder.create()
+        mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        mAlertDialog.window!!.attributes.windowAnimations= R.style.DialogAnimation2
+        mAlertDialog.show()
+
+        mDialogView.bu_okAds.setOnClickListener{
+            //saveBool(context,"press",true)
+            saveBool(context,"is checked ads",true)
+            mAlertDialog.dismiss()
+            mediaClick.start()
+        }
+
+        mDialogView.bu_notOk.setOnClickListener{
+            //saveBool(context,"press",false)
+            saveBool(context,"is checked ads",false)
+            mAlertDialog.dismiss()
+            mediaClick.start()
+        }
+
+    }*/
 
 
     fun openSuccessDialog(context: Context,mediaClick:MediaPlayer,anim:()->Unit) {

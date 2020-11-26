@@ -1,12 +1,15 @@
 package com.beshoApps.islamy
 
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +22,7 @@ import com.beshoApps.islamy.AdsClass.Companion.mAdView
 import com.beshoApps.islamy.AdsClass.Companion.mInterstitialAd
 import com.beshoApps.islamy.AdsClass.Companion.mRewardedVideoAd
 import com.beshoApps.islamy.AdsClass.Companion.mobileAds
+import com.beshoApps.islamy.Dialogs.Companion.getBool
 import com.beshoApps.islamy.Dialogs.Companion.getInt
 import com.beshoApps.islamy.Dialogs.Companion.playAds
 import com.beshoApps.islamy.Dialogs.Companion.saveInt
@@ -27,11 +31,14 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
+import kotlinx.android.synthetic.main.activity_questions.*
 import kotlinx.android.synthetic.main.activity_true_and_false.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import java.io.FileOutputStream
 import java.io.OutputStream
+import com.beshoApps.islamy.R.color.colorPrimaryDark as colorPrimaryDark1
 
+@Suppress("DEPRECATION")
 class TrueAndFalseActivity : AppCompatActivity(), RewardedVideoAdListener {
 
     private var mProductList: List<QuesTrueFalse>? = null
@@ -41,7 +48,9 @@ class TrueAndFalseActivity : AppCompatActivity(), RewardedVideoAdListener {
     lateinit var mediaPlayerClick:MediaPlayer
     var clicked=false
     var anm=false
+    var backAnswers=R.drawable.button_question
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_true_and_false)
@@ -69,7 +78,24 @@ class TrueAndFalseActivity : AppCompatActivity(), RewardedVideoAdListener {
         mediaPlayerW = MediaPlayer.create(this, R.raw.incorrectt)
         mediaPlayerClick = MediaPlayer.create(this, R.raw.click)
 
-        //var shake:Animation= AnimationUtils.loadAnimation(applicationContext, R.anim.shake)
+        /////////dark state///////////
+
+        if (getBool(this, "dark state", false)){
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            TF_TBar.setBackgroundColor(Color.parseColor("#494545"))
+            backAnswers=R.drawable.bu_white
+            TrueFalse_Layout.setBackgroundColor(Color.parseColor("#494545"))
+            Correction.setBackgroundResource(R.drawable.bu_answer_dark)
+            Correction.setTextColor(Color.parseColor("#000000"))
+            QuesTF.setBackgroundResource(backAnswers)
+            QuesTF.setTextColor(Color.parseColor("#000000"))
+            bu_True.setBackgroundResource(backAnswers)
+            bu_True.setTextColor(Color.parseColor("#000000"))
+            bu_False.setBackgroundResource(backAnswers)
+            bu_False.setTextColor(Color.parseColor("#000000"))
+            bu_Next_TF.setImageResource(R.drawable.next_dark)
+
+        }
 
         tv_points.text= points.toString()
         count2 = getInt(this, "count2", 0)
@@ -117,7 +143,6 @@ class TrueAndFalseActivity : AppCompatActivity(), RewardedVideoAdListener {
                     //bu_True.setTextColor(Color.parseColor("#000000"))
                     bu_Next_TF.isClickable=false
                     YoYo.with(Techniques.Flash).onEnd {bu_True.setBackgroundResource(R.drawable.button_true)
-                        bu_True.setTextColor(Color.parseColor("#ffffff"))
                                                         bu_Next_TF.isClickable=true}
                         .duration(1000).repeat(0).playOn(bu_True)
                     points++
@@ -156,7 +181,6 @@ class TrueAndFalseActivity : AppCompatActivity(), RewardedVideoAdListener {
                     //bu_False.setTextColor(Color.parseColor("#000000"))
                     bu_Next_TF.isClickable=false
                     YoYo.with(Techniques.Flash).onEnd { bu_False.setBackgroundResource(R.drawable.button_true)
-                        bu_False.setTextColor(Color.parseColor("#ffffff"))
                                                         bu_Next_TF.isClickable=true}
                         .duration(1000).repeat(0).playOn(bu_False)
                     points++
@@ -249,8 +273,8 @@ class TrueAndFalseActivity : AppCompatActivity(), RewardedVideoAdListener {
     }
 
     private fun ansBackground(){
-        bu_True.setBackgroundResource(R.drawable.button_question)
-        bu_False.setBackgroundResource(R.drawable.button_question)
+        bu_True.setBackgroundResource(backAnswers)
+        bu_False.setBackgroundResource(backAnswers)
     }
 
     /////////////

@@ -1,17 +1,18 @@
 package com.beshoApps.islamy
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.daimajia.androidanimations.library.Techniques
-import com.daimajia.androidanimations.library.YoYo
 import com.beshoApps.islamy.AdsClass.Companion.MyRewardedAd
 import com.beshoApps.islamy.AdsClass.Companion.bannerAd
 import com.beshoApps.islamy.AdsClass.Companion.loadRewardedVideoAd
@@ -29,15 +30,20 @@ import com.beshoApps.islamy.Dialogs.Companion.saveInt
 import com.beshoApps.islamy.Dialogs.Companion.saveString
 import com.beshoApps.islamy.QuestionsActivity.Companion.openDialog
 import com.beshoApps.islamy.QuestionsActivity.Companion.points
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import kotlinx.android.synthetic.main.activity_names.*
+import kotlinx.android.synthetic.main.activity_questions.*
 import kotlinx.android.synthetic.main.toolbar_layout.*
 import java.io.FileOutputStream
 import java.io.OutputStream
 
+
+@Suppress("DEPRECATION")
 class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
 
     private var mProductList: List<Names>? = null
@@ -51,6 +57,7 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
     var help=false
     var videoLoaded=false
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,11 +83,49 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
         mProductList = mDBHelper!!.listProduct3
         ///////////////////
 
-        myButtons= arrayListOf(bu_A1,bu_A2,bu_A3,bu_A4,bu_A5,bu_A6,bu_A7,bu_A8,bu_A9,bu_A10)
+        myButtons= arrayListOf(
+            bu_A1,
+            bu_A2,
+            bu_A3,
+            bu_A4,
+            bu_A5,
+            bu_A6,
+            bu_A7,
+            bu_A8,
+            bu_A9,
+            bu_A10
+        )
 
+        ////////////////////
+        var darkState=getBool(this, "dark state", false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P&&Build.VERSION.SDK_INT < Build.VERSION_CODES.Q){
+            banner_Names.visibility=View.GONE
+            darkState=false //////////// /////// ///////// //////
+        }
 
         mediaPlayerC = MediaPlayer.create(this, R.raw.correctt)
         mediaPlayerClick = MediaPlayer.create(this, R.raw.click)
+
+        /////////dark state///////////
+
+        if (darkState){
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            bar_Names.setBackgroundColor(Color.parseColor("#494545"))
+            Names_layout.setBackgroundColor(Color.parseColor("#494545"))
+            bu_ques_Names.setBackgroundResource(R.drawable.bu_white)
+            bu_ques_Names.setTextColor(Color.parseColor("#000000"))
+            answer_Names.setBackgroundResource(R.drawable.button_names_dark)
+            answer_Names.setTextColor(Color.parseColor("#ffffff"))
+            myTable.setBackgroundResource(R.drawable.dialog_background_dark)
+            for (i in 0..9){
+                myButtons[i].setBackgroundResource(R.drawable.bu_white)
+                myButtons[i].setTextColor(Color.parseColor("#000000"))
+            }
+            ask_Names.setImageResource(R.drawable.ask_friends_dark)
+            iv_remove.setImageResource(R.drawable.again_dark)
+            bu_Next_in_Names.setImageResource(R.drawable.next_dark)
+        }
+
 
         tv_points.text= points.toString()
         tv_theGames.visibility= View.GONE
@@ -89,17 +134,19 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
         //YoYo.with(Techniques.FadeOut).onEnd { restore() }.duration(10).playOn(tv_theGames)
 
 
-        count3= getInt(this,"count3",0)/////////
-        counter= getInt(this,"counter",0)
-        myAns= getString(this,"myAns","").toString()
-        correct= getBool(this,"correct_Names",false)
+        count3= getInt(this, "count3", 0)/////////
+        counter= getInt(this, "counter", 0)
+        myAns= getString(this, "myAns", "").toString()
+        correct= getBool(this, "correct_Names", false)
         setQuestions()
         answer_Names.text=myAns
 
         if (correct){
             YoYo.with(Techniques.FadeOut).onEnd { notClickable()
-                bu_Next_Names.isClickable=false}.duration(10).playOn(tv_theGames)
-            YoYo.with(Techniques.Flash).onEnd { bu_Next_Names.isClickable=true }.repeat(0).duration(4000).playOn(bu_Next_Names)
+                bu_Next_in_Names.isClickable=false}.duration(10).playOn(tv_theGames)
+            YoYo.with(Techniques.Flash).onEnd { bu_Next_in_Names.isClickable=true }.repeat(0).duration(
+                4000
+            ).playOn(bu_Next_in_Names)
         }else{
             YoYo.with(Techniques.FadeOut).onEnd { restore() }.duration(10).playOn(tv_theGames)
         }
@@ -167,7 +214,7 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
             answers(bu_A10)
         }
 
-        iv_delete.setOnClickListener(){
+        iv_remove.setOnClickListener(){
 
                 if(counter>0){
                     YoYo.with(Techniques.FadeIn).duration(1000).repeat(0).playOn(answer_Names)
@@ -176,29 +223,36 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
                             myAns = mProductList!![count3].a1
                         }
                         2 -> {
-                            myAns = mProductList!![count3].a1+mProductList!![count3].a2
+                            myAns = mProductList!![count3].a1 + mProductList!![count3].a2
                         }
                         3 -> {
-                            myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3
+                            myAns =
+                                mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3
                         }
                         4 -> {
-                            myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3+mProductList!![count3].a4
+                            myAns =
+                                mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3 + mProductList!![count3].a4
                         }
                         5 -> {
-                            myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3+mProductList!![count3].a4+
-                                    mProductList!![count3].a5
+                            myAns =
+                                mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3 + mProductList!![count3].a4 +
+                                        mProductList!![count3].a5
                         }
                         6 -> {
-                            myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3+mProductList!![count3].a4+
-                                    mProductList!![count3].a5+mProductList!![count3].a6
+                            myAns =
+                                mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3 + mProductList!![count3].a4 +
+                                        mProductList!![count3].a5 + mProductList!![count3].a6
                         }
                         7 -> {
-                            myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3+mProductList!![count3].a4+mProductList!![count3].a5+
-                                    mProductList!![count3].a6+mProductList!![count3].a7
+                            myAns =
+                                mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3 + mProductList!![count3].a4 + mProductList!![count3].a5 +
+                                        mProductList!![count3].a6 + mProductList!![count3].a7
                         }
                         8 -> {
-                            myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3+mProductList!![count3].a4+mProductList!![count3].a5+
-                                    mProductList!![count3].a6+mProductList!![count3].a7+mProductList!![count3].a8 }
+                            myAns =
+                                mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3 + mProductList!![count3].a4 + mProductList!![count3].a5 +
+                                        mProductList!![count3].a6 + mProductList!![count3].a7 + mProductList!![count3].a8
+                        }
 
                     }
                     for (i in 0..9){
@@ -212,7 +266,9 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
                         myAns=""
                         for (i in 0..9){
                             if (!myButtons[i].isClickable){
-                                YoYo.with(Techniques.FadeIn).onEnd{myButtons[i].isClickable=true}.duration(1000).repeat(0).playOn(myButtons[i])
+                                YoYo.with(Techniques.FadeIn).onEnd{myButtons[i].isClickable=true}.duration(
+                                    1000
+                                ).repeat(0).playOn(myButtons[i])
                             }else{
                                 myButtons[i].background.alpha=255
                             }
@@ -229,11 +285,11 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
                 help=true
                 videoLoaded=false
                 counter++
-                saveInt(this,"counter",counter)
+                saveInt(this, "counter", counter)
             }else{
                 if (points>=3){
                     counter++
-                    saveInt(this,"counter",counter)
+                    saveInt(this, "counter", counter)
                     help()
                     buttonsAlpha()
                     if (counter<=8){
@@ -242,7 +298,11 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
                         saveInt(this, "points", points)
                     }
                 }else{
-                    Toast.makeText(this,"يجب عليك الحصول علي 3 محاولات كحد أدني",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "يجب عليك الحصول علي 3 محاولات كحد أدني",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -251,15 +311,17 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
             mediaPlayerClick.start()
             val intent= Intent()
             intent.action=Intent.ACTION_SEND
-            intent.putExtra(Intent.EXTRA_TEXT,"${bu_ques_Names.text}"+"؟"+"\n"
-                    +"حمل لعبة إسلامي من هنا"+"\n"+
-                    "https://play.google.com/store/apps/com.beshoApps.islamy")
+            intent.putExtra(
+                Intent.EXTRA_TEXT, "${bu_ques_Names.text}" + "؟" + "\n"
+                        + "حمل لعبة إسلامي من هنا" + "\n" +
+                        "https://play.google.com/store/apps/details?id=com.beshoApps.islamy"
+            )
             intent.type="text/plain"
-            startActivity(Intent.createChooser(intent,"اسأل أصدقائك"))
+            startActivity(Intent.createChooser(intent, "اسأل أصدقائك"))
 
         }
 
-        bu_Next_Names.setOnClickListener(){
+        bu_Next_in_Names.setOnClickListener(){
             if (correct){
                 mediaPlayerClick.seekTo(0)
                 mediaPlayerClick.start()
@@ -269,12 +331,12 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
                 myAns=""
                 count3++
                 saveInt(this, "count3", count3)
-                remove(this,"counter")
-                remove(this,"myAns")
-                remove(this,"iv_delete")
-                remove(this,"correct_Names")
+                remove(this, "counter")
+                remove(this, "myAns")
+                remove(this, "iv_delete")
+                remove(this, "correct_Names")
                 if (count3==100){
-                    Dialogs().openSuccessDialog(this,mediaPlayerClick, { anim() })
+                    Dialogs().openSuccessDialog(this, mediaPlayerClick, { anim() })
                 }else{
                     if (playAds){
                         mInterstitialAd!!.adListener = object: AdListener() {
@@ -312,64 +374,64 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
         var rand= (1 until 6).random()
         when(rand){
             1 -> {
-                bu_A1.text=mProductList!![count3].a3
-                bu_A2.text=mProductList!![count3].a1
-                bu_A3.text=mProductList!![count3].a4
-                bu_A4.text=mProductList!![count3].a6
-                bu_A5.text=mProductList!![count3].a7
-                bu_A6.text=mProductList!![count3].a9
-                bu_A7.text=mProductList!![count3].a5
-                bu_A8.text=mProductList!![count3].a2
-                bu_A9.text=mProductList!![count3].a8
-                bu_A10.text=mProductList!![count3].a10
+                bu_A1.text = mProductList!![count3].a3
+                bu_A2.text = mProductList!![count3].a1
+                bu_A3.text = mProductList!![count3].a4
+                bu_A4.text = mProductList!![count3].a6
+                bu_A5.text = mProductList!![count3].a7
+                bu_A6.text = mProductList!![count3].a9
+                bu_A7.text = mProductList!![count3].a5
+                bu_A8.text = mProductList!![count3].a2
+                bu_A9.text = mProductList!![count3].a8
+                bu_A10.text = mProductList!![count3].a10
             }
             2 -> {
-                bu_A1.text=mProductList!![count3].a10
-                bu_A2.text=mProductList!![count3].a5
-                bu_A3.text=mProductList!![count3].a1
-                bu_A4.text=mProductList!![count3].a7
-                bu_A5.text=mProductList!![count3].a3
-                bu_A6.text=mProductList!![count3].a9
-                bu_A7.text=mProductList!![count3].a6
-                bu_A8.text=mProductList!![count3].a2
-                bu_A9.text=mProductList!![count3].a4
-                bu_A10.text=mProductList!![count3].a8
+                bu_A1.text = mProductList!![count3].a10
+                bu_A2.text = mProductList!![count3].a5
+                bu_A3.text = mProductList!![count3].a1
+                bu_A4.text = mProductList!![count3].a7
+                bu_A5.text = mProductList!![count3].a3
+                bu_A6.text = mProductList!![count3].a9
+                bu_A7.text = mProductList!![count3].a6
+                bu_A8.text = mProductList!![count3].a2
+                bu_A9.text = mProductList!![count3].a4
+                bu_A10.text = mProductList!![count3].a8
             }
             3 -> {
-                bu_A1.text=mProductList!![count3].a1
-                bu_A2.text=mProductList!![count3].a8
-                bu_A3.text=mProductList!![count3].a2
-                bu_A4.text=mProductList!![count3].a6
-                bu_A5.text=mProductList!![count3].a10
-                bu_A6.text=mProductList!![count3].a4
-                bu_A7.text=mProductList!![count3].a3
-                bu_A8.text=mProductList!![count3].a5
-                bu_A9.text=mProductList!![count3].a7
-                bu_A10.text=mProductList!![count3].a9
+                bu_A1.text = mProductList!![count3].a1
+                bu_A2.text = mProductList!![count3].a8
+                bu_A3.text = mProductList!![count3].a2
+                bu_A4.text = mProductList!![count3].a6
+                bu_A5.text = mProductList!![count3].a10
+                bu_A6.text = mProductList!![count3].a4
+                bu_A7.text = mProductList!![count3].a3
+                bu_A8.text = mProductList!![count3].a5
+                bu_A9.text = mProductList!![count3].a7
+                bu_A10.text = mProductList!![count3].a9
             }
             4 -> {
-                bu_A1.text=mProductList!![count3].a5
-                bu_A2.text=mProductList!![count3].a1
-                bu_A3.text=mProductList!![count3].a9
-                bu_A4.text=mProductList!![count3].a6
-                bu_A5.text=mProductList!![count3].a4
-                bu_A6.text=mProductList!![count3].a2
-                bu_A7.text=mProductList!![count3].a8
-                bu_A8.text=mProductList!![count3].a10
-                bu_A9.text=mProductList!![count3].a3
-                bu_A10.text=mProductList!![count3].a7
+                bu_A1.text = mProductList!![count3].a5
+                bu_A2.text = mProductList!![count3].a1
+                bu_A3.text = mProductList!![count3].a9
+                bu_A4.text = mProductList!![count3].a6
+                bu_A5.text = mProductList!![count3].a4
+                bu_A6.text = mProductList!![count3].a2
+                bu_A7.text = mProductList!![count3].a8
+                bu_A8.text = mProductList!![count3].a10
+                bu_A9.text = mProductList!![count3].a3
+                bu_A10.text = mProductList!![count3].a7
             }
             5 -> {
-                bu_A1.text=mProductList!![count3].a3
-                bu_A2.text=mProductList!![count3].a9
-                bu_A3.text=mProductList!![count3].a4
-                bu_A4.text=mProductList!![count3].a8
-                bu_A5.text=mProductList!![count3].a2
-                bu_A6.text=mProductList!![count3].a6
-                bu_A7.text=mProductList!![count3].a10
-                bu_A8.text=mProductList!![count3].a7
-                bu_A9.text=mProductList!![count3].a5
-                bu_A10.text=mProductList!![count3].a1
+                bu_A1.text = mProductList!![count3].a3
+                bu_A2.text = mProductList!![count3].a9
+                bu_A3.text = mProductList!![count3].a4
+                bu_A4.text = mProductList!![count3].a8
+                bu_A5.text = mProductList!![count3].a2
+                bu_A6.text = mProductList!![count3].a6
+                bu_A7.text = mProductList!![count3].a10
+                bu_A8.text = mProductList!![count3].a7
+                bu_A9.text = mProductList!![count3].a5
+                bu_A10.text = mProductList!![count3].a1
             }
         }
     }
@@ -384,14 +446,16 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
             answer_Names.text=myAns
             if(answer_Names.text==mProductList!![count3].correct){
                 correct=true
-                saveBool(this,"correct_Names",true)
+                saveBool(this, "correct_Names", true)
                 points++
                 tv_points.text= points.toString()
                 saveInt(this, "points", points)
-                saveString(this,"myAns",myAns)
+                saveString(this, "myAns", myAns)
                 notClickable()
-                bu_Next_Names.isClickable=false
-                YoYo.with(Techniques.RubberBand).duration(700).onEnd { bu_Next_Names.isClickable=true }.repeat(1).playOn(answer_Names)
+                bu_Next_in_Names.isClickable=false
+                YoYo.with(Techniques.RubberBand).duration(700).onEnd { bu_Next_in_Names.isClickable=true }.repeat(
+                    1
+                ).playOn(answer_Names)
                 mediaPlayerC.start()
             }else{
                 YoYo.with(Techniques.Shake).duration(700).playOn(answer_Names)
@@ -402,14 +466,16 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
             answer_Names.text=myAns
             if(answer_Names.text==mProductList!![count3].correct){
                 correct=true
-                saveBool(this,"correct_Names",true)
+                saveBool(this, "correct_Names", true)
                 points++
                 tv_points.text= points.toString()
                 saveInt(this, "points", points)
-                saveString(this,"myAns",myAns)
+                saveString(this, "myAns", myAns)
                 notClickable()
-                bu_Next_Names.isClickable=false
-                YoYo.with(Techniques.RubberBand).duration(700).onEnd { bu_Next_Names.isClickable=true }.repeat(1).playOn(answer_Names)
+                bu_Next_in_Names.isClickable=false
+                YoYo.with(Techniques.RubberBand).duration(700).onEnd { bu_Next_in_Names.isClickable=true }.repeat(
+                    1
+                ).playOn(answer_Names)
                 mediaPlayerC.start()
             }
         }
@@ -427,7 +493,7 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
         for (i in 0..9){
             myButtons[i].isClickable=false
         }
-        iv_delete.isClickable=false
+        iv_remove.isClickable=false
         help_Names.isClickable=false
     }
 
@@ -435,7 +501,7 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
         for (i in 0..9){
             myButtons[i].isClickable=true
         }
-        iv_delete.isClickable=true
+        iv_remove.isClickable=true
         help_Names.isClickable=true
     }
 
@@ -463,29 +529,34 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
                 check(mProductList!![count3].a2)
             }
             3 -> {
-                myAns = mProductList!![count3].a1+mProductList!![count3].a2
+                myAns = mProductList!![count3].a1 + mProductList!![count3].a2
                 check(mProductList!![count3].a3)
             }
             4 -> {
-                myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3
+                myAns =
+                    mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3
                 check(mProductList!![count3].a4)
             }
             5 -> {
-                myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3+mProductList!![count3].a4
+                myAns =
+                    mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3 + mProductList!![count3].a4
                 check(mProductList!![count3].a5)
             }
             6 -> {
-                myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3+mProductList!![count3].a4+mProductList!![count3].a5
+                myAns =
+                    mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3 + mProductList!![count3].a4 + mProductList!![count3].a5
                 check(mProductList!![count3].a6)
             }
             7 -> {
-                myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3+mProductList!![count3].a4+mProductList!![count3].a5+
-                        mProductList!![count3].a6
+                myAns =
+                    mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3 + mProductList!![count3].a4 + mProductList!![count3].a5 +
+                            mProductList!![count3].a6
                 check(mProductList!![count3].a7)
             }
             8 -> {
-                myAns = mProductList!![count3].a1+mProductList!![count3].a2+mProductList!![count3].a3+mProductList!![count3].a4+mProductList!![count3].a5+
-                        mProductList!![count3].a6+mProductList!![count3].a7
+                myAns =
+                    mProductList!![count3].a1 + mProductList!![count3].a2 + mProductList!![count3].a3 + mProductList!![count3].a4 + mProductList!![count3].a5 +
+                            mProductList!![count3].a6 + mProductList!![count3].a7
                 check(mProductList!![count3].a8)
             }
 
@@ -499,17 +570,19 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
                     onEnd{myButtons[i].isClickable=false}.duration(1000).repeat(0).playOn(myButtons[i])
                 myAns+=myButtons[i].text
                 answer_Names.text=myAns
-                saveString(this,"myAns",myAns)
+                saveString(this, "myAns", myAns)
                 YoYo.with(Techniques.FadeIn).duration(1000).repeat(0).playOn(answer_Names)
                 if(answer_Names.text==mProductList!![count3].correct){
                     correct=true
                     points++
                     tv_points.text= points.toString()
                     saveInt(this, "points", points)
-                    saveString(this,"myAns",myAns)
+                    saveString(this, "myAns", myAns)
                     notClickable()
-                    bu_Next_Names.isClickable=false
-                    YoYo.with(Techniques.RubberBand).duration(700).onEnd { bu_Next_Names.isClickable=true }.repeat(1).playOn(answer_Names)
+                    bu_Next_in_Names.isClickable=false
+                    YoYo.with(Techniques.RubberBand).duration(700).onEnd { bu_Next_in_Names.isClickable=true }.repeat(
+                        1
+                    ).playOn(answer_Names)
                     mediaPlayerC.start()
                 }
                 break
@@ -520,71 +593,101 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
     fun restore(){
         when (counter){
             1 -> {
-                for (i in 0..9){
-                    if (myButtons[i].text==mProductList!![count3].a1){
-                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable=false }.duration(1000).playOn(myButtons[i])
+                for (i in 0..9) {
+                    if (myButtons[i].text == mProductList!![count3].a1) {
+                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable = false }
+                            .duration(
+                                1000
+                            ).playOn(myButtons[i])
                         break
                     }
                 }
             }
             2 -> {
-                for (i in 0..9){
-                    if (myButtons[i].text==mProductList!![count3].a1||myButtons[i].text==mProductList!![count3].a2){
-                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable=false }.duration(1000).playOn(myButtons[i])
+                for (i in 0..9) {
+                    if (myButtons[i].text == mProductList!![count3].a1 || myButtons[i].text == mProductList!![count3].a2) {
+                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable = false }
+                            .duration(
+                                1000
+                            ).playOn(myButtons[i])
                     }
                 }
             }
             3 -> {
-                for (i in 0..9){
-                    if (myButtons[i].text==mProductList!![count3].a1||myButtons[i].text==mProductList!![count3].a2
-                        ||myButtons[i].text==mProductList!![count3].a3){
-                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable=false }.duration(1000).playOn(myButtons[i])
+                for (i in 0..9) {
+                    if (myButtons[i].text == mProductList!![count3].a1 || myButtons[i].text == mProductList!![count3].a2
+                        || myButtons[i].text == mProductList!![count3].a3
+                    ) {
+                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable = false }
+                            .duration(
+                                1000
+                            ).playOn(myButtons[i])
                     }
                 }
             }
             4 -> {
-                for (i in 0..9){
-                    if (myButtons[i].text==mProductList!![count3].a1||myButtons[i].text==mProductList!![count3].a2
-                        ||myButtons[i].text==mProductList!![count3].a3||myButtons[i].text==mProductList!![count3].a4){
-                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable=false }.duration(1000).playOn(myButtons[i])
+                for (i in 0..9) {
+                    if (myButtons[i].text == mProductList!![count3].a1 || myButtons[i].text == mProductList!![count3].a2
+                        || myButtons[i].text == mProductList!![count3].a3 || myButtons[i].text == mProductList!![count3].a4
+                    ) {
+                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable = false }
+                            .duration(
+                                1000
+                            ).playOn(myButtons[i])
                     }
                 }
             }
             5 -> {
-                for (i in 0..9){
-                    if (myButtons[i].text==mProductList!![count3].a1||myButtons[i].text==mProductList!![count3].a2
-                        ||myButtons[i].text==mProductList!![count3].a3||myButtons[i].text==mProductList!![count3].a4
-                        ||myButtons[i].text==mProductList!![count3].a5){
-                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable=false }.duration(1000).playOn(myButtons[i])
+                for (i in 0..9) {
+                    if (myButtons[i].text == mProductList!![count3].a1 || myButtons[i].text == mProductList!![count3].a2
+                        || myButtons[i].text == mProductList!![count3].a3 || myButtons[i].text == mProductList!![count3].a4
+                        || myButtons[i].text == mProductList!![count3].a5
+                    ) {
+                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable = false }
+                            .duration(
+                                1000
+                            ).playOn(myButtons[i])
                     }
                 }
             }
             6 -> {
-                for (i in 0..9){
-                    if (myButtons[i].text==mProductList!![count3].a1||myButtons[i].text==mProductList!![count3].a2
-                        ||myButtons[i].text==mProductList!![count3].a3||myButtons[i].text==mProductList!![count3].a4
-                        ||myButtons[i].text==mProductList!![count3].a5||myButtons[i].text==mProductList!![count3].a6){
-                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable=false }.duration(1000).playOn(myButtons[i])
+                for (i in 0..9) {
+                    if (myButtons[i].text == mProductList!![count3].a1 || myButtons[i].text == mProductList!![count3].a2
+                        || myButtons[i].text == mProductList!![count3].a3 || myButtons[i].text == mProductList!![count3].a4
+                        || myButtons[i].text == mProductList!![count3].a5 || myButtons[i].text == mProductList!![count3].a6
+                    ) {
+                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable = false }
+                            .duration(
+                                1000
+                            ).playOn(myButtons[i])
                     }
                 }
             }
             7 -> {
-                for (i in 0..9){
-                    if (myButtons[i].text==mProductList!![count3].a1||myButtons[i].text==mProductList!![count3].a2
-                        ||myButtons[i].text==mProductList!![count3].a3||myButtons[i].text==mProductList!![count3].a4
-                        ||myButtons[i].text==mProductList!![count3].a5||myButtons[i].text==mProductList!![count3].a6
-                        ||myButtons[i].text==mProductList!![count3].a7){
-                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable=false }.duration(1000).playOn(myButtons[i])
+                for (i in 0..9) {
+                    if (myButtons[i].text == mProductList!![count3].a1 || myButtons[i].text == mProductList!![count3].a2
+                        || myButtons[i].text == mProductList!![count3].a3 || myButtons[i].text == mProductList!![count3].a4
+                        || myButtons[i].text == mProductList!![count3].a5 || myButtons[i].text == mProductList!![count3].a6
+                        || myButtons[i].text == mProductList!![count3].a7
+                    ) {
+                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable = false }
+                            .duration(
+                                1000
+                            ).playOn(myButtons[i])
                     }
                 }
             }
             8 -> {
-                for (i in 0..9){
-                    if (myButtons[i].text==mProductList!![count3].a1||myButtons[i].text==mProductList!![count3].a2
-                        ||myButtons[i].text==mProductList!![count3].a3||myButtons[i].text==mProductList!![count3].a4
-                        ||myButtons[i].text==mProductList!![count3].a5||myButtons[i].text==mProductList!![count3].a6
-                        ||myButtons[i].text==mProductList!![count3].a7||myButtons[i].text==mProductList!![count3].a8){
-                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable=false }.duration(1000).playOn(myButtons[i])
+                for (i in 0..9) {
+                    if (myButtons[i].text == mProductList!![count3].a1 || myButtons[i].text == mProductList!![count3].a2
+                        || myButtons[i].text == mProductList!![count3].a3 || myButtons[i].text == mProductList!![count3].a4
+                        || myButtons[i].text == mProductList!![count3].a5 || myButtons[i].text == mProductList!![count3].a6
+                        || myButtons[i].text == mProductList!![count3].a7 || myButtons[i].text == mProductList!![count3].a8
+                    ) {
+                        YoYo.with(Techniques.FadeOut).onEnd { myButtons[i].isClickable = false }
+                            .duration(
+                                1000
+                            ).playOn(myButtons[i])
                     }
                 }
             }
@@ -624,7 +727,7 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
     }
 
     fun anim(){
-        overridePendingTransition(R.anim.slide_left,R.anim.slide_right)
+        overridePendingTransition(R.anim.slide_left, R.anim.slide_right)
     }
 
     override fun onRewardedVideoAdLoaded() {
@@ -649,7 +752,7 @@ class NamesActivity : AppCompatActivity(), RewardedVideoAdListener {
         if (help){
             help()
             buttonsAlpha()
-            saveBool(this,"iv_delete",false)
+            saveBool(this, "iv_delete", false)
         }else{
             points+=2
             tv_points.text = points.toString()

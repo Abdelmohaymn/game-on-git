@@ -119,6 +119,17 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
             mediaPlayerClick.start()
         }
 
+        view.switch_darkState.isChecked= getBool(this, "dark state", false)
+        view.switch_darkState.setOnCheckedChangeListener(){ _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked){
+                saveBool(this, "dark state", true)
+            }else{
+                saveBool(this, "dark state", false)
+            }
+            mediaPlayerClick.start()
+        }
+
+
         view.share.setOnClickListener(){
             mediaPlayerClick.start()
             share()
@@ -153,7 +164,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
         intent.action=Intent.ACTION_SEND
         intent.putExtra(
             Intent.EXTRA_TEXT, "هيا العب معي هذه اللعبة" + "\n"
-                    + "https://play.google.com/store/apps/com.beshoApps.islamy"
+                    + "https://play.google.com/store/apps/details?id=com.beshoApps.islamy"
         )
         intent.type="text/plain"
         startActivity(Intent.createChooser(intent, "اختر تطبيق"))

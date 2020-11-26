@@ -116,7 +116,7 @@ class GamesActivity : AppCompatActivity() {
         third_game.setOnClickListener(){
             mediaPlayerClick.start()
             if (count3==100){
-                Dialogs().openAgainDialog(this,mediaPlayerClick,GamesActivity(),{anim()},3)
+                Dialogs().openAgainDialog(this,mediaPlayerClick,NamesActivity(),{anim()},3)
             }else{
                 val intent= Intent(this,NamesActivity::class.java)
                 if (playAds){

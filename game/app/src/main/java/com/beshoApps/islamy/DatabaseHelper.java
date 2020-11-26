@@ -32,7 +32,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
-        // Later version of Android seem to enable writeAhead by default, so for consistency explicitly disable it
         db.disableWriteAheadLogging();
     }
 

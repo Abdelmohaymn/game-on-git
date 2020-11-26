@@ -10,6 +10,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.TextView
@@ -47,12 +48,14 @@ import java.io.OutputStream
 
     private var mProductList: List<Questions>? = null
     private var mDBHelper: DatabaseHelper? = null
+    private var myButtons :ArrayList<Button> = arrayListOf()
     lateinit var mediaPlayerC:MediaPlayer
     lateinit var mediaPlayerW:MediaPlayer
     lateinit var mediaPlayerClick:MediaPlayer
     var rand:Int?=null
     var whoClicked=false
     var cnt=0
+    var backAnswers=R.drawable.button_answer
 
     @SuppressLint("ResourceAsColor", "WrongConstant", "ResourceType", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,10 +92,30 @@ import java.io.OutputStream
         mediaPlayerW = MediaPlayer.create(this,R.raw.incorrectt)
         mediaPlayerClick = MediaPlayer.create(this,R.raw.click)
 
+        myButtons= arrayListOf(
+           answer1,answer2,answer3,answer4
+        )
+
+        /////////dark state///////////
+
+        if (getBool(this, "dark state", false)){
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            barQues.setBackgroundColor(Color.parseColor("#494545"))
+            backAnswers=R.drawable.bu_answer_dark
+            revLayoutQues.setBackgroundColor(Color.parseColor("#494545"))
+            Question.setBackgroundResource(R.drawable.bu_white)
+            Question.setTextColor(Color.parseColor("#000000"))
+            for (i in 0..3){
+                myButtons[i].setBackgroundResource(backAnswers)
+                myButtons[i].setTextColor(Color.parseColor("#000000"))
+            }
+            buAskFriends.setImageResource(R.drawable.ask_friends_dark)
+        }
+
         tv_points.text= points.toString()
         tv_theGames.visibility=View.GONE
         count= getInt(this,"count",0)
-        //count=192
+        //count=199
         setQuestions(count)
         if (getBool(this,"bu Ads",false)){
             //buAds.visibility=View.VISIBLE
@@ -101,10 +124,10 @@ import java.io.OutputStream
             //buAds.visibility=View.GONE
             YoYo.with(Techniques.FadeOut).onEnd{buAds.isClickable=false}.duration(10).playOn(buAds)
         }
-        answer1.setBackgroundResource(getInt(this,"back1",R.drawable.button_answer))
-        answer2.setBackgroundResource(getInt(this,"back2",R.drawable.button_answer))
-        answer3.setBackgroundResource(getInt(this,"back3",R.drawable.button_answer))
-        answer4.setBackgroundResource(getInt(this,"back4",R.drawable.button_answer))
+        answer1.setBackgroundResource(getInt(this,"back1",backAnswers))
+        answer2.setBackgroundResource(getInt(this,"back2",backAnswers))
+        answer3.setBackgroundResource(getInt(this,"back3",backAnswers))
+        answer4.setBackgroundResource(getInt(this,"back4",backAnswers))
 
 
         bu_back.setOnClickListener(){
@@ -150,7 +173,7 @@ import java.io.OutputStream
             intent.action=Intent.ACTION_SEND
             intent.putExtra(Intent.EXTRA_TEXT,"${Question.text}"+"؟"+"\n"
                     +"حمل لعبة إسلامي من هنا"+"\n"+
-                    "https://play.google.com/store/apps/com.beshoApps.islamy")
+                    "https://play.google.com/store/apps/details?id=com.beshoApps.islamy")
             intent.type="text/plain"
             startActivity(Intent.createChooser(intent,"اسأل أصدقائك"))
         }
@@ -230,10 +253,10 @@ import java.io.OutputStream
     }
 
     private fun ansBackground(){
-        answer1.setBackgroundResource(R.drawable.button_answer)
-        answer2.setBackgroundResource(R.drawable.button_answer)
-        answer3.setBackgroundResource(R.drawable.button_answer)
-        answer4.setBackgroundResource(R.drawable.button_answer)
+        answer1.setBackgroundResource(backAnswers)
+        answer2.setBackgroundResource(backAnswers)
+        answer3.setBackgroundResource(backAnswers)
+        answer4.setBackgroundResource(backAnswers)
     }
 
 
@@ -491,6 +514,7 @@ import java.io.OutputStream
 
                 saveInt(context,"points", points)
             }
+
 
             mDialogView.watch_vid.setOnClickListener() {
                 if (mRewardedVideoAd!!.isLoaded){

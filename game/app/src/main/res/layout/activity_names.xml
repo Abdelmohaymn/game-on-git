@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Names_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -22,10 +23,10 @@
         android:layout_weight="1"
         android:background="@drawable/button_question"
         android:clickable="false"
-        android:fontFamily="@font/arial"
+        android:fontFamily="@font/omar"
         android:padding="2dp"
         android:textColor="#ffffff"
-        android:textSize="@dimen/_17ssp"
+        android:textSize="@dimen/_12ssp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -79,7 +80,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/iv_delete"
+                android:id="@+id/iv_remove"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
@@ -106,6 +107,7 @@
         </TableRow>
 
         <TableLayout
+            android:id="@+id/myTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"
@@ -132,7 +134,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <Button
@@ -146,7 +148,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <Button
@@ -160,7 +162,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <Button
@@ -174,7 +176,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <Button
@@ -187,7 +189,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
             </TableRow>
 
@@ -207,7 +209,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <Button
@@ -220,7 +222,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <Button
@@ -233,7 +235,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <Button
@@ -246,7 +248,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
                 <Button
@@ -258,7 +260,7 @@
                     android:background="@drawable/button_question"
                     android:fontFamily="@font/arial"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_17ssp"
+                    android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
             </TableRow>
 
@@ -268,7 +270,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/bu_Next_Names"
+        android:id="@+id/bu_Next_in_Names"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/_15sdp"
