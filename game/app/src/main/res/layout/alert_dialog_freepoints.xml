@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            app:srcCompat="@drawable/play_video" />
+            app:srcCompat="@drawable/rewarded_video" />
 
         <TextView
             android:layout_width="wrap_content"

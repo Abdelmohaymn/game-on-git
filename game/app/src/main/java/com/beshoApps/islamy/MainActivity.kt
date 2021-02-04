@@ -22,6 +22,8 @@ import com.beshoApps.islamy.Dialogs.Companion.remove
 import com.beshoApps.islamy.Dialogs.Companion.saveBool
 import com.beshoApps.islamy.QuestionsActivity.Companion.openDialog
 import com.beshoApps.islamy.QuestionsActivity.Companion.points
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -33,15 +35,16 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 @Suppress("DEPRECATION")
  class MainActivity : AppCompatActivity() {
 
+    lateinit var mediaPlayerClick:MediaPlayer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //getWindow.statusBarColor(ContextCompat.getColor(MainActivity,R.color.blue))
         changeColor(R.color.blue2)
-        var mediaPlayerClick:MediaPlayer = MediaPlayer.create(this, R.raw.click)
         val amanager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-
+        mediaPlayerClick=MediaPlayer.create(this, R.raw.click)
         val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val view=layoutInflater.inflate(R.layout.bottom_sheet, null)
 
@@ -57,7 +60,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 
         bu_play.setOnClickListener(){
             mediaPlayerClick.start()
-            val intent=Intent(this, GamesActivity::class.java)
+            /*val intent=Intent(this, GamesActivity::class.java)
             if (playAds){
                 mInterstitialAd!!.adListener = object: AdListener() {
                     override fun onAdClosed() {
@@ -74,7 +77,9 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
             }else{
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_right0, R.anim.slide_right00)
-            }
+            }*/
+
+            Dialogs().openChooseDialog(this,mediaPlayerClick,{anim()})
         }
 
         image_sheet.setOnClickListener(){
@@ -119,15 +124,6 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
             mediaPlayerClick.start()
         }
 
-        view.switch_darkState.isChecked= getBool(this, "dark state", false)
-        view.switch_darkState.setOnCheckedChangeListener(){ _: CompoundButton?, isChecked: Boolean ->
-            if (isChecked){
-                saveBool(this, "dark state", true)
-            }else{
-                saveBool(this, "dark state", false)
-            }
-            mediaPlayerClick.start()
-        }
 
 
         view.share.setOnClickListener(){
@@ -174,6 +170,10 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 
     }
 
+    fun anim(){
+        overridePendingTransition(R.anim.slide_right0, R.anim.slide_right00)
+    }
+
     fun changeColor(resourseColor: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = ContextCompat.getColor(applicationContext, resourseColor)
@@ -183,6 +183,7 @@ import kotlinx.android.synthetic.main.toolbar_layout.*
 
 
     override fun onBackPressed() {
+        mediaPlayerClick.start()
         super.onBackPressed()
         finishAffinity()
         remove(this, "bu Ads")

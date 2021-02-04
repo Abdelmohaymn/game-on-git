@@ -81,27 +81,25 @@ class TrueAndFalseActivity : AppCompatActivity(), RewardedVideoAdListener {
         /////////dark state///////////
 
         if (getBool(this, "dark state", false)){
-            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            TF_TBar.setBackgroundColor(Color.parseColor("#494545"))
-            backAnswers=R.drawable.bu_white
-            TrueFalse_Layout.setBackgroundColor(Color.parseColor("#494545"))
-            Correction.setBackgroundResource(R.drawable.bu_answer_dark)
-            Correction.setTextColor(Color.parseColor("#000000"))
-            QuesTF.setBackgroundResource(backAnswers)
-            QuesTF.setTextColor(Color.parseColor("#000000"))
-            bu_True.setBackgroundResource(backAnswers)
-            bu_True.setTextColor(Color.parseColor("#000000"))
-            bu_False.setBackgroundResource(backAnswers)
-            bu_False.setTextColor(Color.parseColor("#000000"))
-            bu_Next_TF.setImageResource(R.drawable.next_dark)
-
+            darkMode()
         }
-
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         tv_points.text= points.toString()
         count2 = getInt(this, "count2", 0)
         setQuestions()
         YoYo.with(Techniques.FadeOut).duration(10).playOn(Correction)
         tv_theGames.visibility=View.GONE
+
+        iv_dark_mode.setOnClickListener(){
+            mediaPlayerClick.start()
+            if (getBool(this, "dark state", false)) {
+                lightMode()
+                Dialogs.saveBool(this, "dark state", false)
+            }else{
+                darkMode()
+                Dialogs.saveBool(this, "dark state", true)
+            }
+        }
 
         bu_back.setOnClickListener(){
             mediaPlayerClick.start()
@@ -255,6 +253,36 @@ class TrueAndFalseActivity : AppCompatActivity(), RewardedVideoAdListener {
 
         }
 
+    }
+
+    private fun darkMode(){
+        TF_TBar.setBackgroundColor(Color.parseColor("#494545"))
+        backAnswers=R.drawable.bu_white
+        TrueFalse_Layout.setBackgroundColor(Color.parseColor("#494545"))
+        Correction.setBackgroundResource(R.drawable.bu_answer_dark)
+        Correction.setTextColor(Color.parseColor("#000000"))
+        QuesTF.setBackgroundResource(backAnswers)
+        QuesTF.setTextColor(Color.parseColor("#000000"))
+        bu_True.setBackgroundResource(backAnswers)
+        bu_True.setTextColor(Color.parseColor("#000000"))
+        bu_False.setBackgroundResource(backAnswers)
+        bu_False.setTextColor(Color.parseColor("#000000"))
+        bu_Next_TF.setImageResource(R.drawable.next_dark)
+    }
+
+    private fun lightMode(){
+        TF_TBar.setBackgroundColor(Color.parseColor("#29D8CC"))
+        backAnswers=R.drawable.button_question
+        TrueFalse_Layout.setBackgroundColor(Color.parseColor("#ffffff"))
+        Correction.setBackgroundResource(R.drawable.button_answer)
+        Correction.setTextColor(Color.parseColor("#ffffff"))
+        QuesTF.setBackgroundResource(backAnswers)
+        QuesTF.setTextColor(Color.parseColor("#ffffff"))
+        bu_True.setBackgroundResource(backAnswers)
+        bu_True.setTextColor(Color.parseColor("#ffffff"))
+        bu_False.setBackgroundResource(backAnswers)
+        bu_False.setTextColor(Color.parseColor("#ffffff"))
+        bu_Next_TF.setImageResource(R.drawable.next)
     }
 
     private fun setQuestions(){

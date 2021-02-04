@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_5sdp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_ahadith"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:text="Button"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:cardBackgroundColor="#ffffff"
+        app:cardCornerRadius="10dp"
+        app:strokeColor="#332B2B"
+        app:strokeWidth="2dp">
+
+        <ImageView
+            android:id="@+id/iv_share_hadith"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="@dimen/_2sdp"
+            app:srcCompat="@drawable/share_3" />
+
+        <TextView
+            android:id="@+id/hadith_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:fontFamily="@font/baloo"
+            android:text="رقم الحديث"
+            android:textColor="#000000"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold" />
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <Button
+        android:id="@+id/buttonRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card_ahadith"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_7sdp"
+        android:background="@drawable/button_hadith"
+        android:clickable="false"
+        android:fontFamily="@font/quest"
+        android:padding="@dimen/_3sdp"
+        android:text="الحديث"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/_15ssp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+</RelativeLayout>

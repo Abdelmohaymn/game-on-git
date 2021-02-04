@@ -19,6 +19,7 @@ import com.daimajia.androidanimations.library.YoYo
 import com.beshoApps.islamy.QuestionsActivity.Companion.points
 import com.beshoApps.islamy.QuestionsActivity.Companion.removeValues
 import kotlinx.android.synthetic.main.dialog_again.view.*
+import kotlinx.android.synthetic.main.dialog_choose.view.*
 import kotlinx.android.synthetic.main.dialog_coupon_code.*
 import kotlinx.android.synthetic.main.dialog_coupon_code.view.*
 import kotlinx.android.synthetic.main.dialog_success.view.*
@@ -71,33 +72,35 @@ open class Dialogs:AppCompatActivity() {
 
     }
 
-    /*fun openAttentionDialog(context: Context, mediaClick: MediaPlayer) {
+    fun openChooseDialog(context: Context, mediaClick: MediaPlayer,anim:()->Unit) {
         val mDialogView =
-            LayoutInflater.from(context).inflate(R.layout.attention_ads_dialog, null)
+            LayoutInflater.from(context).inflate(R.layout.dialog_choose, null)
         val mBuilder = AlertDialog.Builder(context)
             .setView(mDialogView)
-            .setCancelable(false)
 
         val mAlertDialog = mBuilder.create()
         mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         mAlertDialog.window!!.attributes.windowAnimations= R.style.DialogAnimation2
         mAlertDialog.show()
 
-        mDialogView.bu_okAds.setOnClickListener{
-            //saveBool(context,"press",true)
-            saveBool(context,"is checked ads",true)
-            mAlertDialog.dismiss()
+        mDialogView.theGames.setOnClickListener(){
             mediaClick.start()
+            val intent=Intent(context,GamesActivity::class.java)
+            context.startActivity(intent)
+            anim()
+            mAlertDialog.dismiss()
         }
 
-        mDialogView.bu_notOk.setOnClickListener{
-            //saveBool(context,"press",false)
-            saveBool(context,"is checked ads",false)
-            mAlertDialog.dismiss()
+        mDialogView.theAhadith.setOnClickListener(){
             mediaClick.start()
+            val intent=Intent(context,ElahadithActivity::class.java)
+            context.startActivity(intent)
+            anim()
+            mAlertDialog.dismiss()
         }
 
-    }*/
+
+    }
 
 
     fun openSuccessDialog(context: Context,mediaClick:MediaPlayer,anim:()->Unit) {

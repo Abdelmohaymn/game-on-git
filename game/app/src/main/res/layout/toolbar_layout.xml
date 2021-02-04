@@ -20,6 +20,12 @@
         android:layout_marginLeft="@dimen/_2sdp"
         app:srcCompat="@drawable/back" />
 
+    <ImageView
+        android:id="@+id/iv_dark_mode"
+        android:layout_width="@dimen/_26sdp"
+        android:layout_height="@dimen/_26sdp"
+        android:layout_marginLeft="@dimen/_110sdp"
+        app:srcCompat="@drawable/dark_mode" />
 
     <RelativeLayout
         android:id="@+id/lay_points"

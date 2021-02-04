@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DBNAME = "game.db";     /////
+    public static final String DBNAME = "mygame.db";     /////
     public static final String DBLOCATION = "/data/data/com.beshoApps.islamy/databases/";
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -111,7 +111,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return productList3;
     }
 
-
+    public List<myAhadith> getListProduct4() {
+        myAhadith product;
+        List<myAhadith> productList4 = new ArrayList<>();
+        openDatabase();
+        Cursor cursor = mDatabase.rawQuery("SELECT * FROM hadith", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            product = new myAhadith( cursor.getString(0), cursor.getString(1));
+            productList4.add(product);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        closeDatabase();
+        return productList4;
+    }
 
 
 }

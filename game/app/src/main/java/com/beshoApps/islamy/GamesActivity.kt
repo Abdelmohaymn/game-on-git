@@ -9,7 +9,7 @@ import android.view.View
 import com.beshoApps.islamy.AdsClass.Companion.mInterstitialAd
 import com.beshoApps.islamy.Dialogs.Companion.getInt
 import com.beshoApps.islamy.Dialogs.Companion.playAds
-import com.beshoApps.islamy.NamesActivity.Companion.count3
+import com.beshoApps.islamy.WordsActivity.Companion.count3
 import com.beshoApps.islamy.QuestionsActivity.Companion.count
 import com.beshoApps.islamy.TrueAndFalseActivity.Companion.count2
 import com.google.android.gms.ads.AdListener
@@ -29,6 +29,7 @@ class GamesActivity : AppCompatActivity() {
         mediaPlayerClick = MediaPlayer.create(this,R.raw.click)
 
         iv_points_toolbar.visibility= View.GONE
+        iv_dark_mode.visibility=View.GONE
         count=getInt(this,"count",0)
         tv_num1.text=count.toString()+"/200"
         count2=getInt(this,"count2",0)
@@ -116,9 +117,9 @@ class GamesActivity : AppCompatActivity() {
         third_game.setOnClickListener(){
             mediaPlayerClick.start()
             if (count3==100){
-                Dialogs().openAgainDialog(this,mediaPlayerClick,NamesActivity(),{anim()},3)
+                Dialogs().openAgainDialog(this,mediaPlayerClick,WordsActivity(),{anim()},3)
             }else{
-                val intent= Intent(this,NamesActivity::class.java)
+                val intent= Intent(this,WordsActivity::class.java)
                 if (playAds){
                     mInterstitialAd!!.adListener = object: AdListener() {
                         override fun onAdClosed() {

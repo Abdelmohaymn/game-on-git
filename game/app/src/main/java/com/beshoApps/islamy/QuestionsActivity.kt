@@ -99,19 +99,9 @@ import java.io.OutputStream
         /////////dark state///////////
 
         if (getBool(this, "dark state", false)){
-            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            barQues.setBackgroundColor(Color.parseColor("#494545"))
-            backAnswers=R.drawable.bu_answer_dark
-            revLayoutQues.setBackgroundColor(Color.parseColor("#494545"))
-            Question.setBackgroundResource(R.drawable.bu_white)
-            Question.setTextColor(Color.parseColor("#000000"))
-            for (i in 0..3){
-                myButtons[i].setBackgroundResource(backAnswers)
-                myButtons[i].setTextColor(Color.parseColor("#000000"))
-            }
-            buAskFriends.setImageResource(R.drawable.ask_friends_dark)
+            darkMode()
         }
-
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         tv_points.text= points.toString()
         tv_theGames.visibility=View.GONE
         count= getInt(this,"count",0)
@@ -129,6 +119,16 @@ import java.io.OutputStream
         answer3.setBackgroundResource(getInt(this,"back3",backAnswers))
         answer4.setBackgroundResource(getInt(this,"back4",backAnswers))
 
+        iv_dark_mode.setOnClickListener(){
+            mediaPlayerClick.start()
+            if (getBool(this, "dark state", false)) {
+                lightMode()
+                saveBool(this,"dark state",false)
+            }else{
+                darkMode()
+                saveBool(this,"dark state",true)
+            }
+        }
 
         bu_back.setOnClickListener(){
             mediaPlayerClick.start()
@@ -216,6 +216,32 @@ import java.io.OutputStream
         }
 
 
+    }
+
+    private fun darkMode(){
+        barQues.setBackgroundColor(Color.parseColor("#494545"))
+        backAnswers=R.drawable.bu_answer_dark
+        revLayoutQues.setBackgroundColor(Color.parseColor("#494545"))
+        Question.setBackgroundResource(R.drawable.bu_white)
+        Question.setTextColor(Color.parseColor("#000000"))
+        for (i in 0..3){
+            myButtons[i].setBackgroundResource(backAnswers)
+            myButtons[i].setTextColor(Color.parseColor("#000000"))
+        }
+        buAskFriends.setImageResource(R.drawable.ask_friends_dark)
+    }
+
+    private fun lightMode(){
+        barQues.setBackgroundColor(Color.parseColor("#29D8CC"))
+        backAnswers=R.drawable.button_answer
+        revLayoutQues.setBackgroundColor(Color.parseColor("#ffffff"))
+        Question.setBackgroundResource(R.drawable.button_question)
+        Question.setTextColor(Color.parseColor("#ffffff"))
+        for (i in 0..3){
+            myButtons[i].setBackgroundResource(backAnswers)
+            myButtons[i].setTextColor(Color.parseColor("#ffffff"))
+        }
+        buAskFriends.setImageResource(R.drawable.ask_friends)
     }
 
     private fun setQuestions(index:Int){

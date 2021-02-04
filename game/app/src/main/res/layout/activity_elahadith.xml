@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ahadith_back"
+    tools:context=".ElahadithActivity">
+
+    <include
+        android:id="@+id/toolBar_ahadith"
+        layout="@layout/toolbar_layout" />
+
+    <Button
+        android:id="@+id/bu_saved_hadith"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolBar_ahadith"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_2sdp"
+        android:background="@drawable/bu_saved_ahadith"
+        android:fontFamily="@font/aclonica"
+        android:text="الإنتقال لآخر حديث مقروء"
+        android:textColor="#000000"
+        android:textSize="@dimen/_15ssp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/banner_ahadith"
+        android:layout_below="@+id/bu_saved_hadith"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <include
+        android:id="@+id/banner_ahadith"
+        layout="@layout/banner_ad_layout" />
+
+</RelativeLayout>

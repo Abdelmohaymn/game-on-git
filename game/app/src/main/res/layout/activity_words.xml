@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Names_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".WordsActivity">
+
+    <include
+        android:id="@+id/bar_Names"
+        layout="@layout/toolbar_layout" />
+
+    <Button
+        android:id="@+id/bu_ques_Names"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_question"
+        android:clickable="false"
+        android:fontFamily="@font/omar"
+        android:padding="2dp"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ask_Names"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
+            android:layout_gravity="left"
+            android:layout_marginRight="100dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ask_friends" />
+
+        <ImageView
+            android:id="@+id/help_Names"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginLeft="100dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/help" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/table"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <TableRow
+            android:id="@+id/tb_Row"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_remove"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                app:srcCompat="@drawable/again" />
+
+            <TextView
+                android:id="@+id/answer_Names"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_rate"
+                android:clickable="false"
+                android:fontFamily="@font/baloo"
+                android:padding="5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_16ssp" />
+
+        </TableRow>
+
+        <TableLayout
+            android:id="@+id/myTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/alert_dialog_background"
+            android:padding="@dimen/_10sdp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/bu_A1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="top"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bu_A2"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="top"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bu_A3"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="top"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bu_A4"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="top"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bu_A5"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="top"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bu_A6"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bu_A7"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bu_A8"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bu_A9"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bu_A10"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_question"
+                    android:fontFamily="@font/arial"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/bu_Next_in_Names"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/next" />
+
+    <include
+        android:id="@+id/banner_Names"
+        layout="@layout/banner_ad_layout" />
+
+</LinearLayout>
